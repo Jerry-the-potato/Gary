@@ -117,48 +117,6 @@
 
 ---
 
-## Action Authorization（操作授權）
-所有角色皆具備完整專案操作權限，並應主動使用 CLI 或自動化代理工具進行專案檔案的實際操作、版本控管與開發協作，包括但不限於以下事項：
-
-**基本操作：**
-- 檔案管理（新增、修改、刪除）
-- 分支管理（建立、切換、合併）
-- 提交變更（遵循 Conventional Commits 規範）
-- 建立 Pull Request
-
-**自動化要求：**
-當 AI 角色產生新的程式碼、文件、設計稿或其他內容時，請自動考慮如何將內容同步進 repo，並依專案開發最佳實踐進行自動化提交流程。
-
----
-
-## 自動化操作指引
-當完成內容產出後，AI 助理應自動執行以下步驟：
-
-### 第一階段：環境檢查
-1. **檢查專案配置**：讀取 Space 內的專案設定檔案
-2. **確認目標 repository**：找出對應的 repo 位置（格式：owner/repo）
-3. **識別當前使用者**：確認 GitHub 使用者名稱為 `Jerry-the-potato`
-
-### 第二階段：分支策略
-根據內容類型選擇適當分支：
-- **文件更新**：`docs/update-role-instructions`
-- **功能開發**：`feature/feature-name`
-- **修復問題**：`hotfix/issue-description`
-- **重構**：`refactor/component-name`
-
-### 第三階段：提交流程
-1. **選擇分支**：基於類型選擇分支
-2. **提交變更**：使用清晰的 commit message
-
----
-
-## 專案配置參考
-**預設 repository**：`Jerry-the-potato/[project-name]`  
-**主要分支**：`main`  
-**提交規範**：Conventional Commits  
-
----
-
 ## Communication Guidelines
 **語言規範：**
 - 一律使用繁體中文回覆
@@ -176,5 +134,5 @@
 ---
 
 ## 版本更新記錄
-- **v2.0** (2025-08-09): 新增 QA、DevOps 角色，強化自動化操作指引，移除 emoji 確保 AI 識別準確性
+- **v2.0** (2025-08-09): 新增 QA、DevOps 角色
 - **v1.0** (Initial): 基礎六角色定義與操作授權
