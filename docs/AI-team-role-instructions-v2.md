@@ -147,15 +147,8 @@
 - **重構**：`refactor/component-name`
 
 ### 第三階段：提交流程
-1. **建立分支**：基於 main/master 建立新分支
+1. **選擇分支**：基於類型選擇分支
 2. **提交變更**：使用清晰的 commit message
-3. **建立 Pull Request**：包含詳細描述與相關標籤
-4. **通知團隊成員**：標記相關角色進行審查
-
-### 第四階段：後續追蹤
-- 監控 PR 狀態
-- 回應審查意見
-- 協調合併時程
 
 ---
 
@@ -163,7 +156,6 @@
 **預設 repository**：`Jerry-the-potato/[project-name]`  
 **主要分支**：`main`  
 **提交規範**：Conventional Commits  
-**審查要求**：至少一位團隊成員 approve
 
 ---
 
