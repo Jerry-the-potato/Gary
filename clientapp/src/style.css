@@ -5,7 +5,7 @@
 
 :root {
   /* 字體與排版 */
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
                'Helvetica Neue', Arial, sans-serif;
   line-height: 1.6;
   font-weight: 400;
@@ -20,27 +20,27 @@
   --bg-tertiary: #f1f5f9;
   --bg-overlay: rgba(255, 255, 255, 0.95);
   --bg-glass: rgba(255, 255, 255, 0.8);
-  
+
   --text-primary: #1e293b;
   --text-secondary: #64748b;
   --text-muted: #94a3b8;
   --text-inverse: #f1f5f9;
-  
+
   --accent-primary: #3b82f6;
   --accent-secondary: #8b5cf6;
   --accent-success: #10b981;
   --accent-warning: #f59e0b;
   --accent-error: #ef4444;
-  
+
   --border-color: #e2e8f0;
   --border-muted: #f1f5f9;
   --border-focus: #3b82f6;
-  
+
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  
+
   /* Canvas 專用色彩 */
   --canvas-bg: #ffffff;
   --canvas-grid: #f1f5f9;
@@ -49,18 +49,18 @@
   --canvas-swap: #ef4444;
   --canvas-sorted: #10b981;
   --canvas-highlight: #8b5cf6;
-  
+
   /* UI 控制元件色彩 */
   --ui-button-bg: #3b82f6;
   --ui-button-text: #ffffff;
   --ui-button-hover: #2563eb;
   --ui-button-active: #1d4ed8;
   --ui-button-disabled: #94a3b8;
-  
+
   --ui-input-bg: #ffffff;
   --ui-input-border: #e2e8f0;
   --ui-input-focus: #3b82f6;
-  
+
   /* 狀態指示器 */
   --status-idle: #64748b;
   --status-playing: #10b981;
@@ -76,27 +76,27 @@
     --bg-tertiary: #334155;
     --bg-overlay: rgba(15, 23, 42, 0.95);
     --bg-glass: rgba(15, 23, 42, 0.8);
-    
+
     --text-primary: #f1f5f9;
     --text-secondary: #cbd5e1;
     --text-muted: #94a3b8;
     --text-inverse: #1e293b;
-    
+
     --accent-primary: #60a5fa;
     --accent-secondary: #a78bfa;
     --accent-success: #34d399;
     --accent-warning: #fbbf24;
     --accent-error: #f87171;
-    
+
     --border-color: #334155;
     --border-muted: #475569;
     --border-focus: #60a5fa;
-    
+
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
     --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-    
+
     /* Canvas 深色模式適配 */
     --canvas-bg: #020617;
     --canvas-grid: #1e293b;
@@ -105,18 +105,18 @@
     --canvas-swap: #f87171;
     --canvas-sorted: #34d399;
     --canvas-highlight: #a78bfa;
-    
+
     /* UI 控制元件深色模式 */
     --ui-button-bg: #60a5fa;
     --ui-button-text: #0f172a;
     --ui-button-hover: #3b82f6;
     --ui-button-active: #2563eb;
     --ui-button-disabled: #475569;
-    
+
     --ui-input-bg: #1e293b;
     --ui-input-border: #334155;
     --ui-input-focus: #60a5fa;
-    
+
     /* 狀態指示器深色模式 */
     --status-idle: #94a3b8;
     --status-playing: #34d399;
@@ -132,27 +132,27 @@
   --bg-tertiary: #334155;
   --bg-overlay: rgba(15, 23, 42, 0.95);
   --bg-glass: rgba(15, 23, 42, 0.8);
-  
+
   --text-primary: #f1f5f9;
   --text-secondary: #cbd5e1;
   --text-muted: #94a3b8;
   --text-inverse: #1e293b;
-  
+
   --accent-primary: #60a5fa;
   --accent-secondary: #a78bfa;
   --accent-success: #34d399;
   --accent-warning: #fbbf24;
   --accent-error: #f87171;
-  
+
   --border-color: #334155;
   --border-muted: #475569;
   --border-focus: #60a5fa;
-  
+
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-  
+
   --canvas-bg: #020617;
   --canvas-grid: #1e293b;
   --canvas-bar: #60a5fa;
@@ -160,17 +160,17 @@
   --canvas-swap: #f87171;
   --canvas-sorted: #34d399;
   --canvas-highlight: #a78bfa;
-  
+
   --ui-button-bg: #60a5fa;
   --ui-button-text: #0f172a;
   --ui-button-hover: #3b82f6;
   --ui-button-active: #2563eb;
   --ui-button-disabled: #475569;
-  
+
   --ui-input-bg: #1e293b;
   --ui-input-border: #334155;
   --ui-input-focus: #60a5fa;
-  
+
   --status-idle: #94a3b8;
   --status-playing: #34d399;
   --status-paused: #fbbf24;

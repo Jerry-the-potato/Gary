@@ -92,13 +92,13 @@ export function createBubbleSortSteps(inputArray: number[]): AlgorithmStep[] {
     for (let j = 0; j < data.length - i - 1; j++) {
       // 確保索引在範圍內
       if (j + 1 >= data.length) continue
-      
+
       const currentValue = data[j]
       const nextValue = data[j + 1]
-      
+
       // 確保值存在
       if (currentValue === undefined || nextValue === undefined) continue
-      
+
       // 比較步驟
       steps.push({
         stepId: stepIdGenerator(),

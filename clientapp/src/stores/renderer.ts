@@ -1,7 +1,7 @@
 /**
  * 渲染器狀態管理 Store
  * 實作 Issue #7: Pinia 狀態切分與時間旅行除錯
- * 
+ *
  * 管理 WebGPU/Canvas2D 雙引擎渲染狀態
  */
 
@@ -44,11 +44,11 @@ export const useRendererStore = defineStore('renderer', () => {
   // ===================
   // 核心狀態
   // ===================
-  
+
   const activeRenderer = ref<RendererType | null>(null)
   const preferredRenderer = ref<RendererType>('webgpu')
   const fallbackRenderer = ref<RendererType>('canvas2d')
-  
+
   // 渲染器狀態
   const webgpuStatus = ref<RendererStatus>({
     isInitialized: false,
@@ -56,14 +56,14 @@ export const useRendererStore = defineStore('renderer', () => {
     errorMessage: '',
     features: []
   })
-  
+
   const canvas2dStatus = ref<RendererStatus>({
     isInitialized: false,
     isSupported: false,
     errorMessage: '',
     features: []
   })
-  
+
   // 渲染配置
   const config = ref<RenderConfig>({
     width: 800,
@@ -76,7 +76,7 @@ export const useRendererStore = defineStore('renderer', () => {
     targetFPS: 60,
     antialias: true
   })
-  
+
   // 性能指標
   const performance = ref<PerformanceMetrics>({
     currentFPS: 0,
@@ -84,7 +84,7 @@ export const useRendererStore = defineStore('renderer', () => {
     drawCalls: 0,
     lastRenderTime: 0
   })
-  
+
   // 內部狀態
   const isRendering = ref(false)
   const isInitializing = ref(false)
@@ -92,32 +92,32 @@ export const useRendererStore = defineStore('renderer', () => {
   // ===================
   // 計算屬性
   // ===================
-  
+
   const isWebGPUAvailable = computed(() => {
     return webgpuStatus.value.isSupported
   })
-  
+
   const isCanvas2DAvailable = computed(() => {
     return canvas2dStatus.value.isSupported
   })
-  
+
   const currentRendererStatus = computed(() => {
     if (!activeRenderer.value) return null
-    
-    return activeRenderer.value === 'webgpu' 
-      ? webgpuStatus.value 
+
+    return activeRenderer.value === 'webgpu'
+      ? webgpuStatus.value
       : canvas2dStatus.value
   })
-  
+
   const canRender = computed(() => {
-    return activeRenderer.value !== null && 
+    return activeRenderer.value !== null &&
            currentRendererStatus.value?.isInitialized === true
   })
-  
+
   const rendererFeatures = computed(() => {
     return currentRendererStatus.value?.features || []
   })
-  
+
   const performanceSummary = computed(() => {
     return {
       fps: Math.round(performance.value.currentFPS),
@@ -130,7 +130,7 @@ export const useRendererStore = defineStore('renderer', () => {
   // ===================
   // 核心動作
   // ===================
-  
+
   /**
    * 檢查瀏覽器支援
    */
@@ -147,7 +147,7 @@ export const useRendererStore = defineStore('renderer', () => {
         webgpuStatus.value.errorMessage = error instanceof Error ? error.message : 'WebGPU 初始化失敗'
       }
     }
-    
+
     // 檢查 Canvas2D 支援
     try {
       const canvas = document.createElement('canvas')
@@ -164,7 +164,7 @@ export const useRendererStore = defineStore('renderer', () => {
       canvas2dStatus.value.errorMessage = error instanceof Error ? error.message : 'Canvas2D 初始化失敗'
     }
   }
-  
+
   /**
    * 自動選擇最佳渲染器
    */
@@ -172,14 +172,14 @@ export const useRendererStore = defineStore('renderer', () => {
     if (preferredRenderer.value === 'webgpu' && webgpuStatus.value.isSupported) {
       return 'webgpu'
     }
-    
+
     if (canvas2dStatus.value.isSupported) {
       return 'canvas2d'
     }
-    
+
     throw new Error('沒有可用的渲染器')
   }
-  
+
   /**
    * 初始化渲染器
    */
@@ -187,24 +187,24 @@ export const useRendererStore = defineStore('renderer', () => {
     if (isInitializing.value) {
       throw new Error('渲染器正在初始化中')
     }
-    
+
     isInitializing.value = true
-    
+
     try {
       // 如果沒有指定渲染器，自動選擇
       const targetRenderer = rendererType || selectBestRenderer()
-      
+
       if (targetRenderer === 'webgpu') {
         await initializeWebGPU()
       } else {
         await initializeCanvas2D()
       }
-      
+
       activeRenderer.value = targetRenderer
-      
+
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : '渲染器初始化失敗'
-      
+
       // 如果首選渲染器失敗，嘗試備用渲染器
       if (!rendererType && preferredRenderer.value === 'webgpu') {
         try {
@@ -220,7 +220,7 @@ export const useRendererStore = defineStore('renderer', () => {
       isInitializing.value = false
     }
   }
-  
+
   /**
    * 初始化 WebGPU
    */
@@ -228,7 +228,7 @@ export const useRendererStore = defineStore('renderer', () => {
     if (!webgpuStatus.value.isSupported) {
       throw new Error('WebGPU 不被支援')
     }
-    
+
     try {
       // 這裡實際會創建 WebGPU 上下文
       // 目前只標記為已初始化
@@ -239,7 +239,7 @@ export const useRendererStore = defineStore('renderer', () => {
       throw error
     }
   }
-  
+
   /**
    * 初始化 Canvas2D
    */
@@ -247,7 +247,7 @@ export const useRendererStore = defineStore('renderer', () => {
     if (!canvas2dStatus.value.isSupported) {
       throw new Error('Canvas2D 不被支援')
     }
-    
+
     try {
       // 這裡實際會創建 Canvas2D 上下文
       // 目前只標記為已初始化
@@ -258,7 +258,7 @@ export const useRendererStore = defineStore('renderer', () => {
       throw error
     }
   }
-  
+
   /**
    * 切換渲染器
    */
@@ -266,24 +266,24 @@ export const useRendererStore = defineStore('renderer', () => {
     if (activeRenderer.value === newRenderer) {
       return // 已經是目標渲染器
     }
-    
+
     await initializeRenderer(newRenderer)
   }
-  
+
   /**
    * 更新渲染配置
    */
   function updateConfig(newConfig: Partial<RenderConfig>) {
     config.value = { ...config.value, ...newConfig }
   }
-  
+
   /**
    * 更新性能指標
    */
   function updatePerformance(metrics: Partial<PerformanceMetrics>) {
     performance.value = { ...performance.value, ...metrics }
   }
-  
+
   /**
    * 重置渲染器
    */
@@ -293,21 +293,21 @@ export const useRendererStore = defineStore('renderer', () => {
     canvas2dStatus.value.isInitialized = false
     isRendering.value = false
   }
-  
+
   /**
    * 設定渲染狀態
    */
   function setRenderingState(rendering: boolean) {
     isRendering.value = rendering
   }
-  
+
   /**
    * 設定首選渲染器
    */
   function setPreferredRenderer(renderer: RendererType) {
     preferredRenderer.value = renderer
   }
-  
+
   /**
    * 獲取渲染器診斷信息
    */
@@ -335,7 +335,7 @@ export const useRendererStore = defineStore('renderer', () => {
   // ===================
   // 返回公開 API
   // ===================
-  
+
   return {
     // 狀態
     activeRenderer,
@@ -347,7 +347,7 @@ export const useRendererStore = defineStore('renderer', () => {
     performance,
     isRendering,
     isInitializing,
-    
+
     // 計算屬性
     isWebGPUAvailable,
     isCanvas2DAvailable,
@@ -355,7 +355,7 @@ export const useRendererStore = defineStore('renderer', () => {
     canRender,
     rendererFeatures,
     performanceSummary,
-    
+
     // 動作
     checkBrowserSupport,
     selectBestRenderer,

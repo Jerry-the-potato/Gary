@@ -18,10 +18,10 @@ onMounted(async () => {
 <template>
   <div>
     <ThemeToggle />
-    
+
     <!-- 全域通知容器 -->
     <div class="notifications-container">
-      <div 
+      <div
         v-for="notification in appStore.recentNotifications"
         :key="notification.id"
         :class="['notification', `notification-${notification.type}`]"
@@ -38,7 +38,7 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-    
+
     <header class="topbar">
       <nav class="nav">
         <router-link to="/" class="link">首頁</router-link>
@@ -51,25 +51,25 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.topbar { 
-  border-bottom: 1px solid var(--border-color); 
-  padding: 10px 16px; 
-  background: var(--bg-primary); 
+.topbar {
+  border-bottom: 1px solid var(--border-color);
+  padding: 10px 16px;
+  background: var(--bg-primary);
 }
 
-.nav { 
-  display: flex; 
-  gap: 12px; 
+.nav {
+  display: flex;
+  gap: 12px;
 }
 
-.link { 
-  text-decoration: none; 
-  color: var(--text-primary); 
+.link {
+  text-decoration: none;
+  color: var(--text-primary);
 }
 
-.link.router-link-active { 
-  font-weight: 600; 
-  color: var(--accent-primary); 
+.link.router-link-active {
+  font-weight: 600;
+  color: var(--accent-primary);
 }
 
 /* 通知系統樣式 */

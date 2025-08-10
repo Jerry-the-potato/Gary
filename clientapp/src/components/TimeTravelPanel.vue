@@ -6,7 +6,7 @@
 <template>
   <div class="time-travel-panel" :class="{ open: isOpen }">
     <!-- 面板切換按鈕 -->
-    <button 
+    <button
       class="panel-toggle"
       @click="togglePanel"
       :title="isOpen ? '關閉時間旅行面板' : '開啟時間旅行面板'"
@@ -30,30 +30,30 @@
 
       <!-- 時間軸控制 -->
       <div class="timeline-controls">
-        <button 
-          @click="clearTimeline" 
+        <button
+          @click="clearTimeline"
           :disabled="timelineSummary.length === 0"
           class="clear-btn"
           title="清除所有快照"
         >
           🗑️ 清除
         </button>
-        <button 
-          @click="exportTimeline" 
+        <button
+          @click="exportTimeline"
           :disabled="timelineSummary.length === 0"
           class="export-btn"
           title="導出時間軸"
         >
           📤 導出
         </button>
-        <input 
+        <input
           ref="importInput"
-          type="file" 
+          type="file"
           accept=".json"
           @change="handleImport"
           style="display: none"
         />
-        <button 
+        <button
           @click="triggerImport"
           class="import-btn"
           title="導入時間軸"
@@ -65,13 +65,13 @@
       <!-- 時間軸視覺化 -->
       <div class="timeline-visualization" v-if="timelineSummary.length > 0">
         <div class="timeline-track">
-          <div 
+          <div
             v-for="(snapshot, index) in timelineSummary"
             :key="snapshot.id"
             class="timeline-point"
-            :class="{ 
+            :class="{
               active: index === currentSnapshotIndex,
-              clickable: !isTimeTravel 
+              clickable: !isTimeTravel
             }"
             @click="restoreToSnapshot(snapshot.id)"
             :title="`${snapshot.description} (步驟 ${snapshot.step + 1})`"
@@ -88,15 +88,15 @@
           <h4>📋 快照列表</h4>
           <span class="list-count">({{ timelineSummary.length }} 項)</span>
         </div>
-        
+
         <div class="list-container">
-          <div 
+          <div
             v-for="(snapshot, index) in timelineSummary"
             :key="snapshot.id"
             class="snapshot-item"
-            :class="{ 
+            :class="{
               active: index === currentSnapshotIndex,
-              clickable: !isTimeTravel 
+              clickable: !isTimeTravel
             }"
             @click="restoreToSnapshot(snapshot.id)"
           >
@@ -112,7 +112,7 @@
               </div>
             </div>
             <div class="snapshot-actions">
-              <button 
+              <button
                 @click.stop="restoreToSnapshot(snapshot.id)"
                 :disabled="isTimeTravel || index === currentSnapshotIndex"
                 class="restore-btn"
@@ -203,8 +203,8 @@ function clearTimeline() {
 function exportTimeline() {
   try {
     const data = sortingStore.exportTimeline()
-    const blob = new Blob([JSON.stringify(data, null, 2)], { 
-      type: 'application/json' 
+    const blob = new Blob([JSON.stringify(data, null, 2)], {
+      type: 'application/json'
     })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
@@ -214,7 +214,7 @@ function exportTimeline() {
     a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
-    
+
     appStore.addNotification({
       type: 'success',
       title: '時間軸已導出',
@@ -238,13 +238,13 @@ function triggerImport() {
 function handleImport(event: Event) {
   const file = (event.target as HTMLInputElement).files?.[0]
   if (!file) return
-  
+
   const reader = new FileReader()
   reader.onload = (e) => {
     try {
       const data = JSON.parse(e.target?.result as string)
       sortingStore.importTimeline(data)
-      
+
       appStore.addNotification({
         type: 'success',
         title: '時間軸已導入',
@@ -265,10 +265,10 @@ function handleImport(event: Event) {
 
 function restoreToSnapshot(snapshotId: string) {
   if (isTimeTravel.value) return
-  
+
   try {
     sortingStore.restoreSnapshot(snapshotId)
-    
+
     appStore.addNotification({
       type: 'info',
       title: '已恢復快照',
@@ -296,10 +296,10 @@ function getAlgorithmName(algorithm: string): string {
 
 function formatTime(timestamp: number): string {
   const date = new Date(timestamp)
-  return date.toLocaleTimeString('zh-TW', { 
-    hour: '2-digit', 
-    minute: '2-digit', 
-    second: '2-digit' 
+  return date.toLocaleTimeString('zh-TW', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
   })
 }
 </script>

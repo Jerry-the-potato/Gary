@@ -26,7 +26,7 @@
       <h2>🔍 Store 狀態檢查器</h2>
       <div class="state-inspector">
         <div class="inspector-tabs">
-          <button 
+          <button
             v-for="tab in inspectorTabs"
             :key="tab.id"
             :class="['tab-button', { active: activeTab === tab.id }]"
@@ -140,14 +140,14 @@
         <div class="action-panel">
           <h3>🎛️ 渲染器控制</h3>
           <div class="action-buttons">
-            <button 
+            <button
               @click="switchToWebGPU"
               :disabled="!rendererStore.isWebGPUAvailable"
               class="action-button"
             >
               切換到 WebGPU
             </button>
-            <button 
+            <button
               @click="switchToCanvas2D"
               :disabled="!rendererStore.isCanvas2DAvailable"
               class="action-button"
@@ -191,7 +191,7 @@
         </div>
       </div>
 
-      <input 
+      <input
         ref="fileInput"
         type="file"
         accept=".json"
@@ -316,7 +316,7 @@ function clearAllData() {
     sortingStore.clearTimeline()
     rendererStore.resetRenderer()
     appStore.resetApp()
-    
+
     appStore.addNotification({
       type: 'warning',
       title: '數據已清除',
@@ -334,9 +334,9 @@ function exportAllStates() {
       renderer: rendererStore.getDiagnostics(),
       exportTime: new Date().toISOString()
     }
-    
-    const blob = new Blob([JSON.stringify(exportData, null, 2)], { 
-      type: 'application/json' 
+
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+      type: 'application/json'
     })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
@@ -346,7 +346,7 @@ function exportAllStates() {
     a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
-    
+
     appStore.addNotification({
       type: 'success',
       title: '狀態已導出',
@@ -370,20 +370,20 @@ function triggerFileImport() {
 function handleFileImport(event: Event) {
   const file = (event.target as HTMLInputElement).files?.[0]
   if (!file) return
-  
+
   const reader = new FileReader()
   reader.onload = (e) => {
     try {
       const data = JSON.parse(e.target?.result as string)
-      
+
       if (data.sorting) {
         sortingStore.importTimeline(data.sorting)
       }
-      
+
       if (data.app) {
         appStore.importAppState(data.app)
       }
-      
+
       appStore.addNotification({
         type: 'success',
         title: '狀態已導入',
@@ -406,7 +406,7 @@ function formatDuration(ms: number): string {
   const seconds = Math.floor(ms / 1000)
   const minutes = Math.floor(seconds / 60)
   const hours = Math.floor(minutes / 60)
-  
+
   if (hours > 0) {
     return `${hours}h ${minutes % 60}m`
   } else if (minutes > 0) {

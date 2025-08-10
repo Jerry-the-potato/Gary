@@ -1,7 +1,7 @@
 /**
  * 應用程式全域狀態管理 Store
  * 實作 Issue #7: Pinia 狀態切分與時間旅行除錯
- * 
+ *
  * 管理主題、語言、使用者偏好等全域設定
  */
 
@@ -46,7 +46,7 @@ export const useAppStore = defineStore('app', () => {
   // ===================
   // 核心狀態
   // ===================
-  
+
   // 使用者偏好
   const preferences = ref<UserPreferences>({
     theme: 'auto',
@@ -57,7 +57,7 @@ export const useAppStore = defineStore('app', () => {
     debugMode: false,
     showTips: true
   })
-  
+
   // 應用程式元資訊
   const metadata = ref<AppMetadata>({
     version: '1.0.0',
@@ -65,7 +65,7 @@ export const useAppStore = defineStore('app', () => {
     environment: 'development',
     features: ['sorting-visualization', 'time-travel-debugging', 'dual-renderer']
   })
-  
+
   // 活動統計
   const stats = ref<ActivityStats>({
     totalSessions: 0,
@@ -74,7 +74,7 @@ export const useAppStore = defineStore('app', () => {
     lastActiveTime: Date.now(),
     favoriteAlgorithm: 'bubble-sort'
   })
-  
+
   // 內部狀態
   const isInitialized = ref(false)
   const isLoading = ref(false)
@@ -90,7 +90,7 @@ export const useAppStore = defineStore('app', () => {
   // ===================
   // 計算屬性
   // ===================
-  
+
   const currentTheme = computed(() => {
     if (preferences.value.theme === 'auto') {
       // 檢查系統主題偏好
@@ -98,20 +98,20 @@ export const useAppStore = defineStore('app', () => {
     }
     return preferences.value.theme
   })
-  
+
   const isDebugMode = computed(() => {
     return preferences.value.debugMode || metadata.value.environment === 'development'
   })
-  
+
   const sessionDuration = computed(() => {
     return Date.now() - stats.value.lastActiveTime
   })
-  
+
   const averageSessionTime = computed(() => {
     if (stats.value.totalSessions === 0) return 0
     return stats.value.totalTimeSpent / stats.value.totalSessions
   })
-  
+
   const recentNotifications = computed(() => {
     return notifications.value
       .filter(n => Date.now() - n.timestamp < 10000) // 最近 10 秒
@@ -121,37 +121,37 @@ export const useAppStore = defineStore('app', () => {
   // ===================
   // 核心動作
   // ===================
-  
+
   /**
    * 初始化應用程式
    */
   async function initializeApp() {
     if (isInitialized.value) return
-    
+
     isLoading.value = true
-    
+
     try {
       // 載入使用者偏好設定
       await loadUserPreferences()
-      
+
       // 載入活動統計
       await loadActivityStats()
-      
+
       // 開始新的會話
       startNewSession()
-      
+
       // 初始化主題
       applyTheme(currentTheme.value)
-      
+
       isInitialized.value = true
-      
+
       addNotification({
         type: 'success',
         title: '應用程式已就緒',
         message: '演算法視覺化工具已成功載入',
         autoClose: true
       })
-      
+
     } catch (error) {
       addNotification({
         type: 'error',
@@ -164,7 +164,7 @@ export const useAppStore = defineStore('app', () => {
       isLoading.value = false
     }
   }
-  
+
   /**
    * 載入使用者偏好設定
    */
@@ -179,7 +179,7 @@ export const useAppStore = defineStore('app', () => {
       console.warn('無法載入使用者偏好設定:', error)
     }
   }
-  
+
   /**
    * 儲存使用者偏好設定
    */
@@ -190,7 +190,7 @@ export const useAppStore = defineStore('app', () => {
       console.warn('無法儲存使用者偏好設定:', error)
     }
   }
-  
+
   /**
    * 載入活動統計
    */
@@ -205,7 +205,7 @@ export const useAppStore = defineStore('app', () => {
       console.warn('無法載入活動統計:', error)
     }
   }
-  
+
   /**
    * 儲存活動統計
    */
@@ -216,7 +216,7 @@ export const useAppStore = defineStore('app', () => {
       console.warn('無法儲存活動統計:', error)
     }
   }
-  
+
   /**
    * 開始新的會話
    */
@@ -225,7 +225,7 @@ export const useAppStore = defineStore('app', () => {
     stats.value.lastActiveTime = Date.now()
     saveActivityStats()
   }
-  
+
   /**
    * 結束當前會話
    */
@@ -234,22 +234,22 @@ export const useAppStore = defineStore('app', () => {
     stats.value.totalTimeSpent += sessionTime
     saveActivityStats()
   }
-  
+
   /**
    * 更新偏好設定
    */
   function updatePreferences(newPreferences: Partial<UserPreferences>) {
     const oldTheme = preferences.value.theme
     preferences.value = { ...preferences.value, ...newPreferences }
-    
+
     // 如果主題改變，立即應用
     if (oldTheme !== preferences.value.theme) {
       applyTheme(currentTheme.value)
     }
-    
+
     saveUserPreferences()
   }
-  
+
   /**
    * 應用主題
    */
@@ -258,7 +258,7 @@ export const useAppStore = defineStore('app', () => {
     document.documentElement.classList.remove('light', 'dark')
     document.documentElement.classList.add(theme)
   }
-  
+
   /**
    * 切換主題
    */
@@ -266,7 +266,7 @@ export const useAppStore = defineStore('app', () => {
     const newTheme = currentTheme.value === 'light' ? 'dark' : 'light'
     updatePreferences({ theme: newTheme })
   }
-  
+
   /**
    * 記錄排序運行
    */
@@ -275,7 +275,7 @@ export const useAppStore = defineStore('app', () => {
     stats.value.favoriteAlgorithm = algorithm
     saveActivityStats()
   }
-  
+
   /**
    * 添加通知
    */
@@ -291,19 +291,19 @@ export const useAppStore = defineStore('app', () => {
       autoClose: notification.autoClose !== false,
       ...notification
     }
-    
+
     notifications.value.push(newNotification)
-    
+
     // 自動關閉通知
     if (newNotification.autoClose) {
       setTimeout(() => {
         removeNotification(newNotification.id)
       }, 5000)
     }
-    
+
     return newNotification.id
   }
-  
+
   /**
    * 移除通知
    */
@@ -313,14 +313,14 @@ export const useAppStore = defineStore('app', () => {
       notifications.value.splice(index, 1)
     }
   }
-  
+
   /**
    * 清除所有通知
    */
   function clearAllNotifications() {
     notifications.value = []
   }
-  
+
   /**
    * 重置應用程式狀態
    */
@@ -328,7 +328,7 @@ export const useAppStore = defineStore('app', () => {
     // 清除本地存儲
     localStorage.removeItem('app-preferences')
     localStorage.removeItem('app-stats')
-    
+
     // 重置狀態
     preferences.value = {
       theme: 'auto',
@@ -339,7 +339,7 @@ export const useAppStore = defineStore('app', () => {
       debugMode: false,
       showTips: true
     }
-    
+
     stats.value = {
       totalSessions: 0,
       totalSortingRuns: 0,
@@ -347,10 +347,10 @@ export const useAppStore = defineStore('app', () => {
       lastActiveTime: Date.now(),
       favoriteAlgorithm: 'bubble-sort'
     }
-    
+
     notifications.value = []
     isInitialized.value = false
-    
+
     addNotification({
       type: 'info',
       title: '應用程式已重置',
@@ -358,7 +358,7 @@ export const useAppStore = defineStore('app', () => {
       autoClose: true
     })
   }
-  
+
   /**
    * 導出應用程式狀態
    */
@@ -370,7 +370,7 @@ export const useAppStore = defineStore('app', () => {
       exportTime: new Date().toISOString()
     }
   }
-  
+
   /**
    * 導入應用程式狀態
    */
@@ -381,7 +381,7 @@ export const useAppStore = defineStore('app', () => {
     if (data.preferences) {
       updatePreferences(data.preferences)
     }
-    
+
     if (data.stats) {
       stats.value = { ...stats.value, ...data.stats }
       saveActivityStats()
@@ -391,7 +391,7 @@ export const useAppStore = defineStore('app', () => {
   // ===================
   // 返回公開 API
   // ===================
-  
+
   return {
     // 狀態
     preferences,
@@ -400,14 +400,14 @@ export const useAppStore = defineStore('app', () => {
     isInitialized,
     isLoading,
     notifications,
-    
+
     // 計算屬性
     currentTheme,
     isDebugMode,
     sessionDuration,
     averageSessionTime,
     recentNotifications,
-    
+
     // 動作
     initializeApp,
     updatePreferences,
