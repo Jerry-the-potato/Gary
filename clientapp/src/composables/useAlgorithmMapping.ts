@@ -3,13 +3,13 @@
  * 提供操作到視覺效果的映射邏輯
  */
 
-import type { 
-  OperationType, 
-  VisualizationMapping, 
-  VisualHints, 
+import type {
+  OperationType,
+  VisualizationMapping,
+  VisualHints,
   ComplexityInfo,
   AlgorithmMetadata,
-  SupportedAlgorithms 
+  SupportedAlgorithms
 } from '../types/algorithm'
 
 // 預設視覺化映射配置
@@ -49,7 +49,7 @@ export function getVisualHints(
   mapping: VisualizationMapping = defaultVisualizationMapping
 ): VisualHints {
   const config = mapping[operationType]
-  
+
   return {
     animationType: config.animation,
     duration: config.duration,
@@ -237,7 +237,7 @@ export function getAlgorithmMetadata(algorithmType: SupportedAlgorithms): Algori
 export function createStepIdGenerator(algorithmType: SupportedAlgorithms): () => string {
   let counter = 0
   const prefix = algorithmType.replace('-', '_').toUpperCase()
-  
+
   return () => {
     counter++
     const timestamp = Date.now().toString(36)

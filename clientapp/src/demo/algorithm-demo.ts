@@ -4,9 +4,9 @@
  */
 
 import type { AlgorithmStep, SupportedAlgorithms } from '../types/algorithm'
-import { 
-  getVisualHints, 
-  getComplexityInfo, 
+import {
+  getVisualHints,
+  getComplexityInfo,
   getAlgorithmMetadata,
   createStepIdGenerator,
   validateAlgorithmStep
@@ -17,10 +17,10 @@ import {
  */
 export function demonstrateAlgorithmTypes() {
   console.log('🎯 演示 AlgorithmStep 型別系統')
-  
+
   // 1. 創建步驟 ID 生成器
   const stepIdGenerator = createStepIdGenerator('bubble-sort')
-  
+
   // 2. 創建示例演算法步驟
   const exampleStep: AlgorithmStep = {
     stepId: stepIdGenerator(),
@@ -41,11 +41,11 @@ export function demonstrateAlgorithmTypes() {
     },
     visualHints: getVisualHints('compare')
   }
-  
+
   // 3. 驗證步驟
   const isValid = validateAlgorithmStep(exampleStep)
   console.log(`✅ 步驟驗證結果: ${isValid}`)
-  
+
   // 4. 獲取複雜度資訊
   const complexity = getComplexityInfo('bubble-sort')
   console.log(`📊 氣泡排序複雜度:`, {
@@ -53,13 +53,13 @@ export function demonstrateAlgorithmTypes() {
     worstCase: complexity.worstCase,
     isStable: complexity.isStable
   })
-  
+
   // 5. 獲取演算法元資訊
   const metadata = getAlgorithmMetadata('bubble-sort')
   console.log(`📚 演算法資訊: ${metadata.name}`)
   console.log(`📝 描述: ${metadata.description}`)
   console.log(`💡 適用場景:`, metadata.useCases)
-  
+
   // 6. 演示不同操作類型的視覺效果
   const operations = ['compare', 'swap', 'insert', 'merge'] as const
   console.log('🎨 操作視覺效果:')
@@ -67,7 +67,7 @@ export function demonstrateAlgorithmTypes() {
     const hints = getVisualHints(op)
     console.log(`  ${op}: ${hints.animationType} (${hints.duration}ms)`)
   })
-  
+
   return {
     step: exampleStep,
     isValid,
@@ -84,9 +84,9 @@ export function createBubbleSortSteps(inputArray: number[]): AlgorithmStep[] {
   const stepIdGenerator = createStepIdGenerator('bubble-sort')
   const data = [...inputArray] // 複製陣列避免修改原始數據
   let sequenceNumber = 0
-  
+
   console.log('🫧 生成氣泡排序步驟序列...')
-  
+
   // 氣泡排序演算法
   for (let i = 0; i < data.length - 1; i++) {
     for (let j = 0; j < data.length - i - 1; j++) {
@@ -107,7 +107,7 @@ export function createBubbleSortSteps(inputArray: number[]): AlgorithmStep[] {
         },
         visualHints: getVisualHints('compare')
       })
-      
+
       // 如果需要交換
       if (data[j] > data[j + 1]) {
         // 交換步驟
@@ -127,13 +127,13 @@ export function createBubbleSortSteps(inputArray: number[]): AlgorithmStep[] {
           },
           visualHints: getVisualHints('swap')
         })
-        
+
         // 實際交換數據
         [data[j], data[j + 1]] = [data[j + 1], data[j]]
       }
     }
   }
-  
+
   // 最終完成步驟
   steps.push({
     stepId: stepIdGenerator(),
@@ -158,7 +158,7 @@ export function createBubbleSortSteps(inputArray: number[]): AlgorithmStep[] {
       }
     }
   })
-  
+
   console.log(`✅ 生成了 ${steps.length} 個步驟`)
   return steps
 }
@@ -168,7 +168,7 @@ export function createBubbleSortSteps(inputArray: number[]): AlgorithmStep[] {
  */
 export function validateSteps(steps: AlgorithmStep[]): boolean {
   console.log('🔍 驗證步驟序列...')
-  
+
   let isValid = true
   for (let i = 0; i < steps.length; i++) {
     if (!validateAlgorithmStep(steps[i])) {
@@ -176,11 +176,11 @@ export function validateSteps(steps: AlgorithmStep[]): boolean {
       isValid = false
     }
   }
-  
+
   if (isValid) {
     console.log('✅ 所有步驟驗證通過')
   }
-  
+
   return isValid
 }
 
@@ -188,19 +188,19 @@ export function validateSteps(steps: AlgorithmStep[]): boolean {
 if (typeof window !== 'undefined') {
   // 瀏覽器環境
   console.log('在瀏覽器中運行 AlgorithmStep 演示...')
-  
+
   // 基本型別演示
   const demo = demonstrateAlgorithmTypes()
-  
+
   // 生成完整步驟序列
   const inputArray = [64, 34, 25, 12, 22]
   const steps = createBubbleSortSteps(inputArray)
-  
+
   // 驗證步驟
   const allValid = validateSteps(steps)
-  
+
   console.log(`🎉 演示完成! 生成 ${steps.length} 個步驟，驗證結果: ${allValid}`)
-  
+
   // 將結果暴露到全域變數供檢查
   ;(window as any).algorithmDemo = {
     demo,

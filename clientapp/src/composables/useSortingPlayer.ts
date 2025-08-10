@@ -1,7 +1,7 @@
 /**
  * 排序視覺化播放器
  * 實作 Issue #6: MVP 三排序視覺化
- * 
+ *
  * 提供步驟播放、暫停、快進等控制功能
  */
 
@@ -62,11 +62,11 @@ export class SortingPlayer {
     events?: PlayerEvents
   ) {
     this.visualizationManager = new VisualizationManager(canvas, renderConfig)
-    
+
     if (playerConfig) {
       this.config = { ...defaultPlayerConfig, ...playerConfig }
     }
-    
+
     if (events) {
       this.events = events
     }
@@ -103,12 +103,12 @@ export class SortingPlayer {
     this.steps = [...steps] // 深度複製
     this.currentStepIndex = 0
     this.setState('idle')
-    
+
     // 渲染第一步
     this.renderCurrentStep()
-    
+
     console.log(`📖 已載入 ${this.steps.length} 個演算法步驟`)
-    
+
     if (this.config.autoPlay) {
       this.play()
     }
@@ -119,7 +119,7 @@ export class SortingPlayer {
    */
   play(): void {
     if (this.state === 'playing') return
-    
+
     if (this.state === 'completed' && this.config.loopMode) {
       this.reset()
     }
@@ -133,7 +133,7 @@ export class SortingPlayer {
    */
   pause(): void {
     if (this.state !== 'playing') return
-    
+
     this.setState('paused')
     this.clearTimer()
   }
@@ -201,7 +201,7 @@ export class SortingPlayer {
     }
 
     this.config.playbackSpeed = speed
-    
+
     // 如果正在播放，重新調度計時器
     if (this.state === 'playing') {
       this.clearTimer()
@@ -287,7 +287,7 @@ export class SortingPlayer {
 
     this.playTimer = window.setTimeout(() => {
       this.nextStep()
-      
+
       if (this.state === 'playing') {
         this.scheduleNextStep()
       }
@@ -355,7 +355,7 @@ export function useSortingPlayer(
 
     player = new SortingPlayer(canvas, renderConfig, playerConfig, events)
     await player.initialize(preferWebGPU)
-    
+
     return player
   }
 

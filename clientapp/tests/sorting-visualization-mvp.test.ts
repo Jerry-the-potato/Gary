@@ -10,59 +10,59 @@ import { SortingPlayer, useSortingPlayer, estimatePlaybackDuration, formatPlayba
 import type { AlgorithmStep } from '../src/types/algorithm'
 
 describe('🧪 Issue #6 MVP 排序視覺化測試', () => {
-  
+
   describe('🔢 排序演算法引擎測試', () => {
     const testData = [64, 34, 25, 12, 22, 11, 90]
     const expectedSorted = [11, 12, 22, 25, 34, 64, 90]
 
     it('氣泡排序應該生成正確的步驟序列', () => {
       const steps = SortingAlgorithmFactory.generateSteps('bubble-sort', testData)
-      
+
       expect(steps.length).toBeGreaterThan(0)
       expect(AlgorithmValidator.validateStepSequence(steps)).toBe(true)
       expect(AlgorithmValidator.validateSortResult(testData, steps)).toBe(true)
-      
+
       const finalStep = steps[steps.length - 1]!
       expect(finalStep.arrayState.data).toEqual(expectedSorted)
-      
+
       console.log(`✅ 氣泡排序生成 ${steps.length} 步驟`)
     })
 
     it('選擇排序應該生成正確的步驟序列', () => {
       const steps = SortingAlgorithmFactory.generateSteps('selection-sort', testData)
-      
+
       expect(steps.length).toBeGreaterThan(0)
       expect(AlgorithmValidator.validateStepSequence(steps)).toBe(true)
       expect(AlgorithmValidator.validateSortResult(testData, steps)).toBe(true)
-      
+
       const finalStep = steps[steps.length - 1]!
       expect(finalStep.arrayState.data).toEqual(expectedSorted)
-      
+
       console.log(`✅ 選擇排序生成 ${steps.length} 步驟`)
     })
 
     it('插入排序應該生成正確的步驟序列', () => {
       const steps = SortingAlgorithmFactory.generateSteps('insertion-sort', testData)
-      
+
       expect(steps.length).toBeGreaterThan(0)
       expect(AlgorithmValidator.validateStepSequence(steps)).toBe(true)
       expect(AlgorithmValidator.validateSortResult(testData, steps)).toBe(true)
-      
+
       const finalStep = steps[steps.length - 1]!
       expect(finalStep.arrayState.data).toEqual(expectedSorted)
-      
+
       console.log(`✅ 插入排序生成 ${steps.length} 步驟`)
     })
 
     it('應該處理邊界情況', () => {
       // 空陣列
       expect(() => SortingAlgorithmFactory.generateSteps('bubble-sort', [])).toThrow()
-      
+
       // 單元素陣列
       const singleSteps = SortingAlgorithmFactory.generateSteps('bubble-sort', [42])
       expect(singleSteps.length).toBeGreaterThan(0)
       expect(singleSteps[singleSteps.length - 1]!.arrayState.data).toEqual([42])
-      
+
       // 已排序陣列
       const sortedSteps = SortingAlgorithmFactory.generateSteps('bubble-sort', [1, 2, 3, 4, 5])
       expect(sortedSteps.length).toBeGreaterThan(0)
@@ -176,7 +176,7 @@ describe('🧪 Issue #6 MVP 排序視覺化測試', () => {
     it('WebGPU 渲染器應該正確處理不支援情況', () => {
       const renderer = new WebGPURenderer()
       expect(renderer.type).toBe('webgpu')
-      
+
       // 在 Node.js 環境中 WebGPU 不支援
       expect(renderer.isSupported()).toBe(false)
     })
@@ -229,14 +229,14 @@ describe('🧪 Issue #6 MVP 排序視覺化測試', () => {
       }
 
       player = new SortingPlayer(canvas)
-      
+
       let stateChanges: string[] = []
       let stepChanges: number[] = []
 
       await player.initialize(false) // 使用 Canvas2D
 
       player.loadSteps(testSteps)
-      
+
       // 測試狀態
       expect(player.getState()).toBe('idle')
       expect(player.getCurrentStepInfo().totalSteps).toBe(testSteps.length)
@@ -314,7 +314,7 @@ describe('🧪 Issue #6 MVP 排序視覺化測試', () => {
 
       testCases.forEach((data, index) => {
         const expected = [...data].sort((a, b) => a - b)
-        
+
         const bubbleSteps = SortingAlgorithmFactory.generateSteps('bubble-sort', data)
         const selectionSteps = SortingAlgorithmFactory.generateSteps('selection-sort', data)
         const insertionSteps = SortingAlgorithmFactory.generateSteps('insertion-sort', data)
@@ -362,7 +362,7 @@ describe('🧪 Issue #6 MVP 排序視覺化測試', () => {
       const testData = [3, 1, 2]
       const steps = SortingAlgorithmFactory.generateSteps('bubble-sort', testData)
       const firstStep = steps[0]!
-      
+
       expect(typeof firstStep.stepId).toBe('string')
       expect(typeof firstStep.sequenceNumber).toBe('number')
       expect(Array.isArray(firstStep.arrayState.data)).toBe(true)
@@ -388,11 +388,11 @@ export function assertSortingStepsValid(steps: AlgorithmStep[], originalData: nu
   expect(steps.length).toBeGreaterThan(0)
   expect(AlgorithmValidator.validateStepSequence(steps)).toBe(true)
   expect(AlgorithmValidator.validateSortResult(originalData, steps)).toBe(true)
-  
+
   // 檢查步驟 ID 唯一性
   const stepIds = steps.map(step => step.stepId)
   expect(new Set(stepIds).size).toBe(stepIds.length)
-  
+
   // 檢查序列號連續性
   steps.forEach((step, index) => {
     expect(step.sequenceNumber).toBe(index + 1)

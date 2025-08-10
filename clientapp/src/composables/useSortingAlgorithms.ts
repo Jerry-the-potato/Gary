@@ -1,20 +1,20 @@
 /**
  * 排序演算法實作引擎
  * 實作 Issue #6: MVP 三排序視覺化 (Bubble/Selection/Insertion)
- * 
+ *
  * 提供步驟化的演算法執行，生成 AlgorithmStep 序列
  */
 
-import type { 
-  AlgorithmStep, 
+import type {
+  AlgorithmStep,
   SupportedAlgorithms,
   ArrayState,
   OperationInfo
 } from '../types/algorithm'
 
-import { 
-  getVisualHints, 
-  createStepIdGenerator 
+import {
+  getVisualHints,
+  createStepIdGenerator
 } from './useAlgorithmMapping'
 
 /**
@@ -80,16 +80,16 @@ export class BubbleSort extends SortingAlgorithm {
   sort(): AlgorithmStep[] {
     const data = [...this.inputData]
     const n = data.length
-    
+
     if (n === 0) {
       throw new Error('無法對空陣列進行排序')
     }
-    
+
     console.log(`🫧 開始氣泡排序，輸入: [${data.join(', ')}]`)
-    
+
     for (let i = 0; i < n - 1; i++) {
       let hasSwapped = false
-      
+
       for (let j = 0; j < n - i - 1; j++) {
         // 比較步驟
         this.steps.push(this.createStep(
@@ -168,7 +168,7 @@ export class BubbleSort extends SortingAlgorithm {
 
     console.log(`✅ 氣泡排序完成，共 ${this.steps.length} 步驟`)
     console.log(`📊 結果: [${data.join(', ')}]`)
-    
+
     return this.steps
   }
 }
@@ -184,7 +184,7 @@ export class SelectionSort extends SortingAlgorithm {
     if (n === 0) {
       throw new Error('無法對空陣列進行排序')
     }
-    
+
     console.log(`🎯 開始選擇排序，輸入: [${data.join(', ')}]`)
 
     for (let i = 0; i < n - 1; i++) {
@@ -210,7 +210,7 @@ export class SelectionSort extends SortingAlgorithm {
         // 更新最小值索引
         if (data[j]! < data[minIndex]!) {
           minIndex = j
-          
+
           this.steps.push(this.createStep(
             {
               data: [...data],
@@ -279,7 +279,7 @@ export class SelectionSort extends SortingAlgorithm {
 
     console.log(`✅ 選擇排序完成，共 ${this.steps.length} 步驟`)
     console.log(`📊 結果: [${data.join(', ')}]`)
-    
+
     return this.steps
   }
 }
@@ -291,11 +291,11 @@ export class InsertionSort extends SortingAlgorithm {
   sort(): AlgorithmStep[] {
     const data = [...this.inputData]
     const n = data.length
-    
+
     if (n === 0) {
       throw new Error('無法對空陣列進行排序')
     }
-    
+
     console.log(`📍 開始插入排序，輸入: [${data.join(', ')}]`)
 
     for (let i = 1; i < n; i++) {
@@ -335,7 +335,7 @@ export class InsertionSort extends SortingAlgorithm {
 
         // 移動元素
         data[j + 1] = data[j]!
-        
+
         this.steps.push(this.createStep(
           {
             data: [...data],
@@ -399,7 +399,7 @@ export class InsertionSort extends SortingAlgorithm {
 
     console.log(`✅ 插入排序完成，共 ${this.steps.length} 步驟`)
     console.log(`📊 結果: [${data.join(', ')}]`)
-    
+
     return this.steps
   }
 }
@@ -445,11 +445,11 @@ export class AlgorithmValidator {
    */
   static validateSortResult(original: number[], steps: AlgorithmStep[]): boolean {
     if (steps.length === 0) return false
-    
+
     const finalStep = steps[steps.length - 1]!
     const sortedData = finalStep.arrayState.data
     const expectedSorted = [...original].sort((a, b) => a - b)
-    
+
     return JSON.stringify(sortedData) === JSON.stringify(expectedSorted)
   }
 
@@ -458,7 +458,7 @@ export class AlgorithmValidator {
    */
   static validateStepSequence(steps: AlgorithmStep[]): boolean {
     if (steps.length === 0) return false
-    
+
     // 檢查序列號連續性
     for (let i = 0; i < steps.length; i++) {
       const step = steps[i]!
@@ -467,14 +467,14 @@ export class AlgorithmValidator {
         return false
       }
     }
-    
+
     // 檢查步驟 ID 唯一性
     const stepIds = new Set(steps.map(step => step.stepId))
     if (stepIds.size !== steps.length) {
       console.error('步驟 ID 不唯一')
       return false
     }
-    
+
     return true
   }
 }

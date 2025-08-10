@@ -1,7 +1,7 @@
 /**
  * 演算法視覺化型別定義
  * 基於技術規格書 AlgorithmStep 介面設計
- * 
+ *
  * @see docs/最終規格文件/001演算法視覺化工具技術規格書.md
  */
 
@@ -69,13 +69,13 @@ export interface AlgorithmStep {
   stepId: string
   /** 序列編號 */
   sequenceNumber: number
-  
+
   /** 陣列狀態 */
   arrayState: ArrayState
-  
+
   /** 操作描述 */
   operation: OperationInfo
-  
+
   /** 視覺化提示 */
   visualHints: VisualHints
 }

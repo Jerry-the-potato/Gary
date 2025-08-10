@@ -53,7 +53,7 @@
         :width="canvasConfig.width"
         :height="canvasConfig.height"
       ></canvas>
-      
+
       <!-- 渲染引擎信息 -->
       <div class="engine-info" v-if="rendererType">
         🚀 渲染引擎: {{ rendererType === 'webgpu' ? 'WebGPU' : 'Canvas2D' }}
@@ -105,7 +105,7 @@
           ({{ Math.round(progress * 100) }}%)
         </div>
         <div class="progress-bar">
-          <div 
+          <div
             class="progress-fill"
             :style="{ width: `${progress * 100}%` }"
           ></div>
@@ -124,8 +124,8 @@
           <strong>說明:</strong> {{ currentStepInfo.operation.description }}
         </div>
         <div class="step-complexity" v-if="currentStepInfo.operation.complexity">
-          <strong>複雜度:</strong> 
-          時間 {{ currentStepInfo.operation.complexity.time }} | 
+          <strong>複雜度:</strong>
+          時間 {{ currentStepInfo.operation.complexity.time }} |
           空間 {{ currentStepInfo.operation.complexity.space }}
         </div>
       </div>
@@ -214,15 +214,15 @@ const { createPlayer, destroyPlayer, getPlayer } = useSortingPlayer(
 )
 
 // 計算屬性
-const canStart = computed(() => 
+const canStart = computed(() =>
   playerState.value === 'idle' && currentData.value.length > 0
 )
 
-const canNavigate = computed(() => 
+const canNavigate = computed(() =>
   playerState.value !== 'playing' && totalSteps.value > 0
 )
 
-const selectedAlgorithmInfo = computed(() => 
+const selectedAlgorithmInfo = computed(() =>
   getAlgorithmMetadata(selectedAlgorithm.value)
 )
 
@@ -258,14 +258,14 @@ const parseDataInput = () => {
       .split(',')
       .map(s => parseInt(s.trim()))
       .filter(n => !isNaN(n) && n > 0)
-    
+
     if (numbers.length === 0) {
       throw new Error('請輸入有效的正整數')
     }
 
     currentData.value = numbers
     errorMessage.value = ''
-    
+
     // 停止當前播放
     stopPlayer()
   } catch (error) {
@@ -278,13 +278,13 @@ const generateRandomData = () => {
   const count = 8
   const maxValue = 99
   const randomData = Array.from(
-    { length: count }, 
+    { length: count },
     () => Math.floor(Math.random() * maxValue) + 1
   )
-  
+
   currentData.value = randomData
   dataInput.value = randomData.join(',')
-  
+
   stopPlayer()
 }
 
@@ -297,24 +297,24 @@ const resetData = () => {
 const startSorting = async () => {
   try {
     errorMessage.value = ''
-    
+
     // 解析輸入數據
     parseDataInput()
-    
+
     // 生成排序步驟
     console.log(`🚀 開始 ${selectedAlgorithm.value} 排序`)
     const steps = SortingAlgorithmFactory.generateSteps(
       selectedAlgorithm.value,
       currentData.value
     )
-    
+
     // 載入步驟到播放器
     const player = getPlayer()
     if (player) {
       player.loadSteps(steps)
       player.play()
     }
-    
+
   } catch (error) {
     const message = error instanceof Error ? error.message : '排序啟動失敗'
     errorMessage.value = message
@@ -355,7 +355,7 @@ const updatePlaybackSpeed = () => {
 onMounted(async () => {
   try {
     await nextTick()
-    
+
     if (canvasElement.value) {
       const player = await createPlayer(playerEvents, true)
       rendererType.value = player.getRendererType()
@@ -652,19 +652,19 @@ button:disabled {
   .sorting-visualization {
     padding: 10px;
   }
-  
+
   .input-controls {
     flex-direction: column;
   }
-  
+
   .data-input-field {
     min-width: unset;
   }
-  
+
   .control-buttons {
     justify-content: center;
   }
-  
+
   .visualization-canvas {
     width: 100%;
     height: auto;

@@ -1,7 +1,7 @@
 /**
  * 排序視覺化渲染器
  * 實作 Issue #6: MVP 三排序視覺化
- * 
+ *
  * 支援 WebGPU 和 Canvas2D 雙引擎渲染
  */
 
@@ -75,7 +75,7 @@ export class Canvas2DRenderer implements RenderEngine {
   async initialize(canvas: HTMLCanvasElement, config: RenderConfig): Promise<void> {
     this.canvas = canvas
     this.context = canvas.getContext('2d')
-    
+
     if (!this.context) {
       throw new Error('無法取得 Canvas 2D 上下文')
     }
@@ -83,7 +83,7 @@ export class Canvas2DRenderer implements RenderEngine {
     // 設定畫布尺寸
     canvas.width = config.width
     canvas.height = config.height
-    
+
     console.log('✅ Canvas2D 渲染引擎初始化完成')
   }
 
@@ -94,7 +94,7 @@ export class Canvas2DRenderer implements RenderEngine {
 
     const { arrayState } = step
     const { data, highlightedIndices = [], comparisonPair = [], swapPair = [], sortedRegions = [] } = arrayState
-    
+
     // 清空畫布
     this.context.fillStyle = config.colors.background
     this.context.fillRect(0, 0, config.width, config.height)
@@ -166,11 +166,11 @@ export class Canvas2DRenderer implements RenderEngine {
     if (!this.context) return
 
     const { operation } = step
-    
+
     // 背景框
     this.context.fillStyle = 'rgba(255, 255, 255, 0.9)'
     this.context.fillRect(10, 10, config.width - 20, 60)
-    
+
     this.context.strokeStyle = '#d1d5db'
     this.context.strokeRect(10, 10, config.width - 20, 60)
 
@@ -208,7 +208,7 @@ export class Canvas2DRenderer implements RenderEngine {
     if (typeof document === 'undefined') {
       return false // Node.js 環境
     }
-    
+
     try {
       const canvas = document.createElement('canvas')
       const context = canvas.getContext('2d')
@@ -235,7 +235,7 @@ export class WebGPURenderer implements RenderEngine {
 
     this.canvas = canvas
     this.context = canvas.getContext('webgpu')
-    
+
     if (!this.context) {
       throw new Error('無法取得 WebGPU 上下文')
     }
@@ -252,7 +252,7 @@ export class WebGPURenderer implements RenderEngine {
     }
 
     this.device = await adapter.requestDevice()
-    
+
     // 配置 WebGPU 上下文
     this.context.configure({
       device: this.device,
@@ -266,7 +266,7 @@ export class WebGPURenderer implements RenderEngine {
   render(step: AlgorithmStep, config: RenderConfig): void {
     // TODO: 實作 WebGPU 渲染邏輯
     console.log('🚧 WebGPU 渲染器開發中，回退到 Canvas2D')
-    
+
     // 暫時回退到 Canvas2D
     const fallbackRenderer = new Canvas2DRenderer()
     if (this.canvas) {
@@ -354,7 +354,7 @@ export class VisualizationManager {
 
     this.renderer = await RendererFactory.createBestRenderer(preferWebGPU)
     await this.renderer.initialize(this.canvas, this.config)
-    
+
     console.log(`✅ 視覺化管理器初始化完成，使用 ${this.renderer.type} 引擎`)
   }
 

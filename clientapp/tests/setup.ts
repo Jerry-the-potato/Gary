@@ -15,7 +15,7 @@ global.ResizeObserver = global.ResizeObserver || class {
 global.HTMLCanvasElement = global.HTMLCanvasElement || class {
   width = 800
   height = 400
-  
+
   getContext(contextType: string) {
     if (contextType === '2d') {
       const canvas = new Canvas(this.width, this.height)

@@ -50,7 +50,7 @@ interface AlgorithmStep {
 }
 
 // 支援的演算法類型
-type SupportedAlgorithms = 
+type SupportedAlgorithms =
   | 'bubble-sort' | 'selection-sort' | 'insertion-sort'
   | 'quick-sort' | 'merge-sort' | 'heap-sort'
   | 'counting-sort' | 'radix-sort'
@@ -120,7 +120,7 @@ console.log(metadata.useCases)      // ['大型數據集', '平均性能要求',
 
 ### Phase 1 - MVP 演算法 (已完成型別定義)
 - ✅ 氣泡排序 (Bubble Sort)
-- ✅ 選擇排序 (Selection Sort)  
+- ✅ 選擇排序 (Selection Sort)
 - ✅ 插入排序 (Insertion Sort)
 
 ### Phase 2 - 進階演算法 (已完成型別定義)
@@ -180,7 +180,7 @@ npx tsc --noEmit
 
 ---
 
-**狀態**: ✅ **已完成**  
-**相關 Issue**: [#5 定義 AlgorithmStep 型別與可視化映射](https://github.com/Jerry-the-potato/Gary/issues/5)  
-**測試覆蓋**: 100% 型別安全驗證  
+**狀態**: ✅ **已完成**
+**相關 Issue**: [#5 定義 AlgorithmStep 型別與可視化映射](https://github.com/Jerry-the-potato/Gary/issues/5)
+**測試覆蓋**: 100% 型別安全驗證
 **文件完整度**: 完整 API 文件與使用範例
