@@ -1,8 +1,9 @@
 /**
  * AlgorithmStep 型別與視覺化映射測試
- * 簡化版本，使用基本斷言來驗證型別和函數功能
+ * 使用 vitest 測試框架
  */
 
+import { describe, it, expect } from 'vitest'
 import type { 
   AlgorithmStep, 
   OperationType,
@@ -17,183 +18,121 @@ import {
   validateAlgorithmStep
 } from '../src/composables/useAlgorithmMapping'
 
-// 簡單的測試框架
-function assert(condition: boolean, message: string) {
-  if (!condition) {
-    throw new Error(`Test failed: ${message}`)
-  }
-}
-
-function assertEquals<T>(actual: T, expected: T, message: string) {
-  if (actual !== expected) {
-    throw new Error(`Test failed: ${message}. Expected: ${expected}, Actual: ${actual}`)
-  }
-}
-
-// 測試 AlgorithmStep 型別定義
-function testAlgorithmStepInterface() {
-  console.log('🧪 測試 AlgorithmStep 型別定義...')
+describe('🧪 AlgorithmStep 型別與視覺化映射測試', () => {
   
-  const mockStep: AlgorithmStep = {
-    stepId: 'test-step-1',
-    sequenceNumber: 1,
-    arrayState: {
-      data: [3, 1, 4, 1, 5],
-      highlightedIndices: [0, 1],
-      comparisonPair: [0, 1],
-      sortedRegions: []
-    },
-    operation: {
-      type: 'compare',
-      description: '比較元素 3 和 1',
-      complexity: {
-        time: 'O(1)',
-        space: 'O(1)'
-      }
-    },
-    visualHints: {
-      animationType: 'highlight',
-      duration: 300,
-      colors: {
-        comparing: '#3B82F6',
-        swapping: '#EF4444',
-        sorted: '#8B5CF6'
-      }
-    }
-  }
-
-  assertEquals(mockStep.stepId, 'test-step-1', 'stepId should match')
-  assert(Array.isArray(mockStep.arrayState.data), 'arrayState.data should be array')
-  assertEquals(mockStep.operation.type, 'compare', 'operation type should be compare')
-  assertEquals(mockStep.visualHints.animationType, 'highlight', 'animation type should be highlight')
-  
-  console.log('✅ AlgorithmStep 型別定義測試通過')
-}
-
-// 測試視覺化映射
-function testVisualizationMapping() {
-  console.log('🧪 測試視覺化映射...')
-  
-  // 測試預設映射
-  assertEquals(defaultVisualizationMapping.compare.color, '#3B82F6', 'compare color should be blue')
-  assertEquals(defaultVisualizationMapping.swap.color, '#EF4444', 'swap color should be red')
-  
-  // 測試視覺提示生成
-  const compareHints = getVisualHints('compare')
-  assertEquals(compareHints.animationType, 'highlight', 'compare animation should be highlight')
-  assertEquals(compareHints.duration, 300, 'compare duration should be 300ms')
-  
-  const swapHints = getVisualHints('swap')
-  assertEquals(swapHints.animationType, 'slide', 'swap animation should be slide')
-  assertEquals(swapHints.duration, 500, 'swap duration should be 500ms')
-  
-  console.log('✅ 視覺化映射測試通過')
-}
-
-// 測試複雜度資訊
-function testComplexityInfo() {
-  console.log('🧪 測試複雜度資訊...')
-  
-  const bubbleSortInfo = getComplexityInfo('bubble-sort')
-  assertEquals(bubbleSortInfo.bestCase, 'O(n)', 'bubble sort best case should be O(n)')
-  assertEquals(bubbleSortInfo.worstCase, 'O(n²)', 'bubble sort worst case should be O(n²)')
-  assert(bubbleSortInfo.isStable, 'bubble sort should be stable')
-  assert(bubbleSortInfo.isInPlace, 'bubble sort should be in-place')
-  
-  const quickSortInfo = getComplexityInfo('quick-sort')
-  assertEquals(quickSortInfo.averageCase, 'O(n log n)', 'quick sort average should be O(n log n)')
-  assert(!quickSortInfo.isStable, 'quick sort should not be stable')
-  
-  console.log('✅ 複雜度資訊測試通過')
-}
-
-// 測試演算法元資訊
-function testAlgorithmMetadata() {
-  console.log('🧪 測試演算法元資訊...')
-  
-  const bubbleSortMeta = getAlgorithmMetadata('bubble-sort')
-  assertEquals(bubbleSortMeta.name, '氣泡排序', 'bubble sort name should be 氣泡排序')
-  assert(bubbleSortMeta.description.includes('冒泡'), 'description should contain 冒泡')
-  assert(bubbleSortMeta.useCases.includes('教學演示'), 'use cases should include 教學演示')
-  
-  const mergeSortMeta = getAlgorithmMetadata('merge-sort')
-  assertEquals(mergeSortMeta.name, '合併排序', 'merge sort name should be 合併排序')
-  assert(mergeSortMeta.prosAndCons.cons.includes('額外記憶體需求'), 'cons should include memory requirement')
-  
-  console.log('✅ 演算法元資訊測試通過')
-}
-
-// 測試工具函數
-function testUtilityFunctions() {
-  console.log('🧪 測試工具函數...')
-  
-  // 測試步驟 ID 生成器
-  const generator = createStepIdGenerator('bubble-sort')
-  
-  const id1 = generator()
-  const id2 = generator()
-  const id3 = generator()
-
-  assertEquals(id1, 'bubble-sort-step-1', 'first ID should be bubble-sort-step-1')
-  assertEquals(id2, 'bubble-sort-step-2', 'second ID should be bubble-sort-step-2')
-  assertEquals(id3, 'bubble-sort-step-3', 'third ID should be bubble-sort-step-3')
-  
-  // 測試驗證函數
-  const validStep = {
-    stepId: 'test-1',
-    sequenceNumber: 1,
-    arrayState: {
-      data: [1, 2, 3],
-      highlightedIndices: [0],
-      sortedRegions: []
-    },
-    operation: {
-      type: 'compare',
-      description: 'test',
-      complexity: { time: 'O(1)', space: 'O(1)' }
-    },
-    visualHints: {
-      animationType: 'highlight',
-      duration: 300,
-      colors: { comparing: '#000', swapping: '#000', sorted: '#000' }
-    }
-  }
-
-  const invalidStep = {
-    stepId: 123,
-    sequenceNumber: 'invalid'
-  }
-
-  assert(validateAlgorithmStep(validStep), 'valid step should pass validation')
-  assert(!validateAlgorithmStep(invalidStep), 'invalid step should fail validation')
-  assert(!validateAlgorithmStep(null), 'null should fail validation')
-  
-  console.log('✅ 工具函數測試通過')
-}
-
-// 執行所有測試
-function runAllTests() {
-  console.log('🚀 開始執行 AlgorithmStep 型別與映射測試\n')
-  
-  try {
-    testAlgorithmStepInterface()
-    testVisualizationMapping()
-    testComplexityInfo()
-    testAlgorithmMetadata()
-    testUtilityFunctions()
+  it('應該正確取得視覺化提示', () => {
+    const compareHints = getVisualHints('compare')
+    expect(compareHints).toBeDefined()
+    expect(compareHints.animationType).toBe('highlight')
+    expect(typeof compareHints.duration).toBe('number')
+    expect(typeof compareHints.colors.comparing).toBe('string')
     
-    console.log('\n🎉 所有測試通過！AlgorithmStep 型別定義與視覺化映射功能正常')
-  } catch (error) {
-    console.error('\n❌ 測試失敗:', error)
-    throw error
-  }
-}
+    const swapHints = getVisualHints('swap')
+    expect(swapHints.animationType).toBe('slide')
+    expect(typeof swapHints.colors.swapping).toBe('string')
+  })
 
-// 導出測試函數供外部調用
-export { runAllTests }
+  it('應該正確取得複雜度資訊', () => {
+    const bubbleComplexity = getComplexityInfo('bubble-sort')
+    expect(bubbleComplexity).toBeDefined()
+    expect(bubbleComplexity.bestCase).toBe('O(n)')
+    expect(bubbleComplexity.averageCase).toBe('O(n²)')
+    expect(bubbleComplexity.worstCase).toBe('O(n²)')
+    expect(bubbleComplexity.spaceComplexity).toBe('O(1)')
+    expect(bubbleComplexity.isStable).toBe(true)
+    expect(bubbleComplexity.isInPlace).toBe(true)
+  })
 
-// 如果直接執行此文件，則運行測試
-if (typeof window === 'undefined') {
-  // Node.js 環境
-  runAllTests()
-}
+  it('應該正確取得演算法元資訊', () => {
+    const bubbleMetadata = getAlgorithmMetadata('bubble-sort')
+    expect(bubbleMetadata).toBeDefined()
+    expect(bubbleMetadata.name).toBe('氣泡排序')
+    expect(typeof bubbleMetadata.description).toBe('string')
+    expect(Array.isArray(bubbleMetadata.useCases)).toBe(true)
+    expect(Array.isArray(bubbleMetadata.prosAndCons.pros)).toBe(true)
+    expect(Array.isArray(bubbleMetadata.prosAndCons.cons)).toBe(true)
+  })
+
+  it('應該正確生成步驟 ID', () => {
+    const generator = createStepIdGenerator('bubble-sort')
+    expect(typeof generator).toBe('function')
+    
+    const id1 = generator()
+    const id2 = generator()
+    
+    expect(typeof id1).toBe('string')
+    expect(typeof id2).toBe('string')
+    expect(id1).not.toBe(id2) // 確保 ID 唯一性
+    expect(id1).toContain('BUBBLE_SORT')
+    expect(id2).toContain('BUBBLE_SORT')
+  })
+
+  it('應該正確驗證演算法步驟', () => {
+    const validStep: AlgorithmStep = {
+      stepId: 'BUBBLE_SORT_TEST_001',
+      sequenceNumber: 1,
+      arrayState: {
+        data: [3, 1, 2],
+        highlightedIndices: [0, 1],
+        sortedRegions: []
+      },
+      operation: {
+        type: 'compare',
+        description: '比較元素 3 和 1',
+        complexity: { time: 'O(1)', space: 'O(1)' }
+      },
+      visualHints: getVisualHints('compare')
+    }
+
+    expect(validateAlgorithmStep(validStep)).toBe(true)
+
+    // 測試無效步驟
+    const invalidStep = {
+      stepId: '',
+      sequenceNumber: -1,
+      // 缺少必要字段
+    }
+
+    expect(validateAlgorithmStep(invalidStep)).toBe(false)
+  })
+
+  it('應該支援所有演算法類型', () => {
+    const algorithms: SupportedAlgorithms[] = [
+      'bubble-sort',
+      'selection-sort', 
+      'insertion-sort'
+    ]
+
+    algorithms.forEach(algorithm => {
+      expect(() => getComplexityInfo(algorithm)).not.toThrow()
+      expect(() => getAlgorithmMetadata(algorithm)).not.toThrow()
+      expect(() => createStepIdGenerator(algorithm)).not.toThrow()
+    })
+  })
+
+  it('應該支援所有操作類型', () => {
+    const operations: OperationType[] = [
+      'compare',
+      'swap',
+      'insert',
+      'merge'
+    ]
+
+    operations.forEach(operation => {
+      expect(() => getVisualHints(operation)).not.toThrow()
+      const hints = getVisualHints(operation)
+      expect(hints).toBeDefined()
+      expect(typeof hints.animationType).toBe('string')
+      expect(typeof hints.duration).toBe('number')
+      expect(typeof hints.colors).toBe('object')
+    })
+  })
+
+  it('應該提供正確的預設視覺化映射', () => {
+    expect(defaultVisualizationMapping).toBeDefined()
+    expect(typeof defaultVisualizationMapping.compare).toBe('object')
+    expect(typeof defaultVisualizationMapping.swap).toBe('object')
+    expect(typeof defaultVisualizationMapping.insert).toBe('object')
+    expect(typeof defaultVisualizationMapping.merge).toBe('object')
+  })
+})

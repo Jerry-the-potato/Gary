@@ -234,9 +234,15 @@ export function getAlgorithmMetadata(algorithmType: SupportedAlgorithms): Algori
 /**
  * 創建步驟 ID 生成器
  */
-export function createStepIdGenerator(algorithmType: SupportedAlgorithms) {
+export function createStepIdGenerator(algorithmType: SupportedAlgorithms): () => string {
   let counter = 0
-  return () => `${algorithmType}-step-${++counter}`
+  const prefix = algorithmType.replace('-', '_').toUpperCase()
+  
+  return () => {
+    counter++
+    const timestamp = Date.now().toString(36)
+    return `${prefix}_${timestamp}_${counter.toString(16).padStart(4, '0')}`
+  }
 }
 
 /**
