@@ -1,30 +1,51 @@
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-import { themeManager } from '../composables/themeManager'
+<!--
+  簡潔的深色模式切換按鈕
+-->
 
-const currentTheme = ref(themeManager.getTheme())
-const isDarkMode = computed(() => currentTheme.value === 'dark')
+<template>
+  <button
+    @click="toggleTheme"
+    class="theme-toggle"
+    :title="isDarkMode ? '切換到淺色模式' : '切換到深色模式'"
+  >
+    {{ isDarkMode ? '🌞' : '🌙' }}
+  </button>
+</template>
+
+<script setup lang="ts">
+import { computed, onMounted } from 'vue'
+import { useThemeStore } from '../stores/theme'
+
+const themeStore = useThemeStore()
+const isDarkMode = computed(() => themeStore.isDarkMode)
 
 const toggleTheme = () => {
-  const newTheme = isDarkMode.value ? 'light' : 'dark'
-  themeManager.setTheme(newTheme)
-  currentTheme.value = newTheme
+  themeStore.toggleTheme()
 }
 
-// Listen for theme changes
-themeManager.onThemeChange((theme) => {
-  currentTheme.value = theme
+onMounted(() => {
+  themeStore.initializeTheme()
 })
 </script>
 
-<template>
-  <div class="theme-toggle">
-    <button @click="toggleTheme" class="theme-btn" :title="isDarkMode ? '切換到淺色模式' : '切換到深色模式'">
-      {{ isDarkMode ? '☀️' : '🌙' }}
-    </button>
-  </div>
-</template>
-
 <style scoped>
-/* Styles are in theme.css */
+.theme-toggle {
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background: var(--bg-tertiary);
+  transform: scale(1.05);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
 </style>

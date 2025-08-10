@@ -90,6 +90,15 @@ export function createBubbleSortSteps(inputArray: number[]): AlgorithmStep[] {
   // 氣泡排序演算法
   for (let i = 0; i < data.length - 1; i++) {
     for (let j = 0; j < data.length - i - 1; j++) {
+      // 確保索引在範圍內
+      if (j + 1 >= data.length) continue
+      
+      const currentValue = data[j]
+      const nextValue = data[j + 1]
+      
+      // 確保值存在
+      if (currentValue === undefined || nextValue === undefined) continue
+      
       // 比較步驟
       steps.push({
         stepId: stepIdGenerator(),
@@ -102,14 +111,14 @@ export function createBubbleSortSteps(inputArray: number[]): AlgorithmStep[] {
         },
         operation: {
           type: 'compare',
-          description: `比較元素 ${data[j]} 和 ${data[j + 1]}`,
+          description: `比較元素 ${currentValue} 和 ${nextValue}`,
           complexity: { time: 'O(1)', space: 'O(1)' }
         },
         visualHints: getVisualHints('compare')
       })
 
       // 如果需要交換
-      if (data[j] > data[j + 1]) {
+      if (currentValue > nextValue) {
         // 交換步驟
         steps.push({
           stepId: stepIdGenerator(),
@@ -122,14 +131,15 @@ export function createBubbleSortSteps(inputArray: number[]): AlgorithmStep[] {
           },
           operation: {
             type: 'swap',
-            description: `交換元素 ${data[j]} 和 ${data[j + 1]}`,
+            description: `交換元素 ${currentValue} 和 ${nextValue}`,
             complexity: { time: 'O(1)', space: 'O(1)' }
           },
           visualHints: getVisualHints('swap')
         })
 
         // 實際交換數據
-        [data[j], data[j + 1]] = [data[j + 1], data[j]]
+        data[j] = nextValue
+        data[j + 1] = currentValue
       }
     }
   }
