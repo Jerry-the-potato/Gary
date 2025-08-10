@@ -1,0 +1,9 @@
+{
+  "files.eol": "\r\n",
+  "git.autoCrlf": true,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true
+}
