@@ -18,6 +18,7 @@ export default defineConfig({
     port: 5173,
     host: true,
     strictPort: false,
+    open: true, // 自動開啟瀏覽器
     fs: {
       strict: true
     }

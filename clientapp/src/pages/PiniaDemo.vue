@@ -423,6 +423,9 @@ function formatDuration(ms: number): string {
   margin: 0 auto;
   padding: 20px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .page-header {
@@ -433,7 +436,7 @@ function formatDuration(ms: number): string {
 .page-header h1 {
   font-size: 2.5rem;
   margin: 0 0 16px 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -441,39 +444,42 @@ function formatDuration(ms: number): string {
 
 .page-description {
   font-size: 1.1rem;
-  color: #6b7280;
+  color: var(--text-secondary);
   margin: 0;
 }
 
 .demo-section {
   margin-bottom: 40px;
-  background: white;
+  background: var(--bg-secondary);
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
 }
 
 .demo-section h2 {
   margin: 0 0 16px 0;
   font-size: 1.5rem;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .section-description {
-  color: #6b7280;
+  color: var(--text-secondary);
   margin-bottom: 24px;
 }
 
 .state-inspector {
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   overflow: hidden;
+  background: var(--bg-primary);
 }
 
 .inspector-tabs {
   display: flex;
-  background: #f9fafb;
-  border-bottom: 1px solid #e5e7eb;
+  background: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .tab-button {
@@ -484,16 +490,17 @@ function formatDuration(ms: number): string {
   cursor: pointer;
   font-weight: 500;
   transition: all 0.2s ease;
+  color: var(--text-primary);
 }
 
 .tab-button:hover {
-  background: #f3f4f6;
+  background: var(--bg-hover);
 }
 
 .tab-button.active {
-  background: white;
-  color: #667eea;
-  border-bottom: 2px solid #667eea;
+  background: var(--bg-primary);
+  color: var(--accent-primary);
+  border-bottom: 2px solid var(--accent-primary);
 }
 
 .inspector-content {
@@ -508,9 +515,11 @@ function formatDuration(ms: number): string {
 
 .state-item {
   padding: 12px;
-  background: #f9fafb;
+  background: var(--bg-tertiary);
   border-radius: 6px;
   font-size: 14px;
+  color: var(--text-primary);
+  border: 1px solid var(--border-muted);
 }
 
 .action-panels {
@@ -520,14 +529,15 @@ function formatDuration(ms: number): string {
 }
 
 .action-panel {
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 16px;
+  background: var(--bg-primary);
 }
 
 .action-panel h3 {
   margin: 0 0 12px 0;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .action-buttons {
@@ -538,17 +548,18 @@ function formatDuration(ms: number): string {
 
 .action-button {
   padding: 10px 16px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--border-color);
   border-radius: 6px;
-  background: white;
+  background: var(--bg-primary);
   cursor: pointer;
   font-weight: 500;
   transition: all 0.2s ease;
+  color: var(--text-primary);
 }
 
 .action-button:hover:not(:disabled) {
-  background: #f3f4f6;
-  border-color: #9ca3af;
+  background: var(--bg-hover);
+  border-color: var(--border-hover);
 }
 
 .action-button:disabled {
@@ -557,13 +568,14 @@ function formatDuration(ms: number): string {
 }
 
 .action-button.danger {
-  background: #fef2f2;
-  border-color: #fecaca;
-  color: #dc2626;
+  background: var(--accent-error-bg);
+  border-color: var(--border-error);
+  color: var(--accent-error);
 }
 
 .action-button.danger:hover:not(:disabled) {
-  background: #fee2e2;
+  background: var(--accent-error-bg);
+  border-color: var(--accent-error);
 }
 
 .performance-grid {
@@ -573,11 +585,13 @@ function formatDuration(ms: number): string {
 }
 
 .performance-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  color: var(--ui-button-text);
   padding: 20px;
   border-radius: 8px;
   text-align: center;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
 }
 
 .performance-card h4 {
@@ -597,23 +611,73 @@ function formatDuration(ms: number): string {
   opacity: 0.8;
 }
 
-/* 深色主題支援 */
-[data-theme="dark"] .demo-section {
-  background: #1f2937;
-  color: #f9fafb;
+/* 響應式設計 */
+@media (max-width: 768px) {
+  .pinia-demo-page {
+    padding: 16px;
+  }
+
+  .state-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .action-panels {
+    grid-template-columns: 1fr;
+  }
+
+  .performance-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .inspector-tabs {
+    flex-direction: column;
+  }
+
+  .tab-button {
+    text-align: center;
+  }
 }
 
-[data-theme="dark"] .tab-button.active {
-  background: #374151;
+/* 高對比度模式 */
+@media (prefers-contrast: high) {
+  .demo-section,
+  .state-inspector,
+  .action-panel {
+    border-width: 2px;
+  }
+
+  .action-button,
+  .tab-button {
+    border-width: 2px;
+    font-weight: 600;
+  }
 }
 
-[data-theme="dark"] .action-panel {
-  border-color: #4b5563;
+/* 減少動畫偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .demo-section,
+  .tab-button,
+  .action-button {
+    transition: none;
+  }
 }
 
-[data-theme="dark"] .action-button {
-  background: #374151;
-  border-color: #4b5563;
-  color: #f9fafb;
+/* 列印樣式 */
+@media print {
+  .pinia-demo-page {
+    background: var(--print-bg);
+    color: var(--print-text);
+  }
+
+  .performance-grid,
+  .action-panels {
+    display: none;
+  }
+
+  .demo-section {
+    background: var(--print-highlight-bg);
+    box-shadow: none;
+    border: 1px solid var(--print-border);
+  }
 }
 </style>

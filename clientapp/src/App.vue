@@ -87,30 +87,30 @@ onMounted(async () => {
 .notification {
   padding: 16px;
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-xl);
   cursor: pointer;
   animation: slideIn 0.3s ease;
   backdrop-filter: blur(10px);
 }
 
 .notification-info {
-  background: rgba(59, 130, 246, 0.9);
-  color: white;
+  background: var(--accent-info);
+  color: var(--ui-button-text);
 }
 
 .notification-success {
-  background: rgba(16, 185, 129, 0.9);
-  color: white;
+  background: var(--accent-success);
+  color: var(--ui-button-text);
 }
 
 .notification-warning {
-  background: rgba(245, 158, 11, 0.9);
-  color: white;
+  background: var(--accent-warning);
+  color: var(--ui-button-text);
 }
 
 .notification-error {
-  background: rgba(239, 68, 68, 0.9);
-  color: white;
+  background: var(--accent-error);
+  color: var(--ui-button-text);
 }
 
 .notification-header {

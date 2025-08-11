@@ -5,6 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:bg": "start /b vite",
+    "dev:detached": "powershell -Command \"Start-Process -FilePath 'npm' -ArgumentList 'run dev' -WindowStyle Hidden\"",
+    "dev:new-window": "start cmd /k npm run dev",
+    "stop:dev": "taskkill /f /im node.exe",
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
     "test": "vitest run",

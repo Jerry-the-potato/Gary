@@ -5,5 +5,26 @@
   "editor.tabSize": 2,
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
-  "files.trimFinalNewlines": true
+  "files.trimFinalNewlines": true,
+
+  // 前端開發相關設定
+  "terminal.integrated.cwd": "./clientapp",
+  "npm.packageManager": "npm",
+  "typescript.preferences.importModuleSpecifier": "relative",
+
+  // AI 助手提示 - 前端工作目錄
+  "ai.projectStructure": {
+    "frontend": "./clientapp",
+    "docs": "./docs",
+    "root": "./"
+  },
+
+  // 任務和調試的工作目錄提示
+  "terminal.integrated.profiles.windows": {
+    "Frontend PowerShell": {
+      "source": "PowerShell",
+      "args": ["-NoExit", "-Command", "cd clientapp"]
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "Frontend PowerShell"
 }

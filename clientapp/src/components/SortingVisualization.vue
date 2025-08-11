@@ -387,7 +387,7 @@ onBeforeUnmount(() => {
 }
 
 .algorithm-selector h2 {
-  color: #1f2937;
+  color: var(--text-primary);
   margin-bottom: 10px;
 }
 
@@ -399,8 +399,9 @@ onBeforeUnmount(() => {
 
 .algorithm-button {
   padding: 10px 20px;
-  border: 2px solid #e5e7eb;
-  background: white;
+  border: 2px solid var(--border-color);
+  background: var(--bg-primary);
+  color: var(--text-primary);
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -408,20 +409,27 @@ onBeforeUnmount(() => {
 }
 
 .algorithm-button:hover {
-  border-color: #3b82f6;
-  background: #eff6ff;
+  border-color: var(--border-focus);
+  background: var(--bg-hover);
 }
 
 .algorithm-button.active {
-  border-color: #3b82f6;
-  background: #3b82f6;
-  color: white;
+  border-color: var(--accent-primary);
+  background: var(--accent-primary);
+  color: var(--ui-button-text);
+}
+
+.algorithm-button:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px var(--shadow-focus);
 }
 
 .data-input {
   margin-bottom: 20px;
   padding: 15px;
-  background: #f9fafb;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
 }
 
@@ -436,9 +444,23 @@ onBeforeUnmount(() => {
   flex: 1;
   min-width: 300px;
   padding: 8px 12px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--input-text);
   border-radius: 4px;
   font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.data-input-field:focus {
+  border-color: var(--input-focus-border);
+  background: var(--input-focus-bg);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--shadow-focus);
+}
+
+.data-input-field::placeholder {
+  color: var(--input-placeholder);
 }
 
 .generate-button, .reset-button {
@@ -447,30 +469,34 @@ onBeforeUnmount(() => {
   border-radius: 4px;
   cursor: pointer;
   font-weight: 500;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .generate-button {
-  background: #10b981;
+  background: var(--accent-success);
   color: white;
 }
 
 .generate-button:hover {
-  background: #059669;
+  background: var(--accent-success);
+  filter: brightness(0.9);
+  transform: translateY(-1px);
 }
 
 .reset-button {
-  background: #6b7280;
+  background: var(--text-tertiary);
   color: white;
 }
 
 .reset-button:hover {
-  background: #4b5563;
+  background: var(--text-tertiary);
+  filter: brightness(0.9);
+  transform: translateY(-1px);
 }
 
 .current-data {
   font-size: 14px;
-  color: #374151;
+  color: var(--text-secondary);
 }
 
 .visualization-container {
@@ -480,27 +506,35 @@ onBeforeUnmount(() => {
 }
 
 .visualization-canvas {
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--border-color);
   border-radius: 8px;
-  background: white;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  background: var(--canvas-bg);
+  box-shadow: 0 4px 6px -1px var(--shadow-color);
+  transition: border-color 0.2s ease;
+}
+
+.visualization-canvas:hover {
+  border-color: var(--border-hover);
 }
 
 .engine-info {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
+  background: var(--bg-overlay);
+  color: var(--text-primary);
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 12px;
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(4px);
 }
 
 .player-controls {
   margin-bottom: 20px;
   padding: 15px;
-  background: #f9fafb;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
 }
 
@@ -513,7 +547,7 @@ onBeforeUnmount(() => {
 
 .control-buttons button {
   padding: 8px 16px;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 4px;
   cursor: pointer;
   font-weight: 500;
@@ -521,44 +555,59 @@ onBeforeUnmount(() => {
 }
 
 .start-button {
-  background: #10b981;
+  background: var(--accent-success);
   color: white;
+  border-color: var(--accent-success);
 }
 
 .start-button:hover:not(:disabled) {
-  background: #059669;
+  background: var(--accent-success);
+  filter: brightness(0.9);
+  transform: translateY(-1px);
 }
 
 .pause-button, .resume-button {
-  background: #f59e0b;
+  background: var(--accent-warning);
   color: white;
+  border-color: var(--accent-warning);
 }
 
 .pause-button:hover:not(:disabled), .resume-button:hover:not(:disabled) {
-  background: #d97706;
+  background: var(--accent-warning);
+  filter: brightness(0.9);
+  transform: translateY(-1px);
 }
 
 .stop-button {
-  background: #ef4444;
+  background: var(--accent-error);
   color: white;
+  border-color: var(--accent-error);
 }
 
 .stop-button:hover:not(:disabled) {
-  background: #dc2626;
+  background: var(--accent-error);
+  filter: brightness(0.9);
+  transform: translateY(-1px);
 }
 
 .step-button {
-  background: #6366f1;
+  background: var(--accent-secondary);
   color: white;
+  border-color: var(--accent-secondary);
 }
 
 .step-button:hover:not(:disabled) {
-  background: #4f46e5;
+  background: var(--accent-secondary);
+  filter: brightness(0.9);
+  transform: translateY(-1px);
 }
 
 button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  background: var(--ui-button-disabled) !important;
+  color: var(--ui-button-disabled-text) !important;
+  transform: none !important;
 }
 
 .speed-control {
@@ -586,27 +635,30 @@ button:disabled {
   text-align: center;
   margin-bottom: 5px;
   font-size: 14px;
-  color: #374151;
+  color: var(--text-secondary);
 }
 
 .progress-bar {
   width: 100%;
   height: 8px;
-  background: #e5e7eb;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
   border-radius: 4px;
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: #3b82f6;
+  background: var(--accent-primary);
   transition: width 0.3s ease;
 }
 
 .step-info {
   margin-bottom: 20px;
   padding: 15px;
-  background: #eff6ff;
+  background: var(--accent-info-bg);
+  color: var(--accent-info-text);
+  border: 1px solid var(--accent-info);
   border-radius: 8px;
 }
 
@@ -618,7 +670,9 @@ button:disabled {
 .algorithm-info {
   margin-bottom: 20px;
   padding: 15px;
-  background: #f0fdf4;
+  background: var(--accent-success-bg);
+  color: var(--accent-success-text);
+  border: 1px solid var(--accent-success);
   border-radius: 8px;
 }
 
@@ -634,17 +688,17 @@ button:disabled {
 
 .error-message {
   padding: 10px;
-  background: #fef2f2;
-  color: #dc2626;
+  background: var(--accent-error-bg);
+  color: var(--accent-error);
   border-radius: 4px;
   margin-bottom: 20px;
-  border: 1px solid #fecaca;
+  border: 1px solid var(--border-error);
 }
 
 .loading {
   text-align: center;
   padding: 20px;
-  color: #6b7280;
+  color: var(--text-secondary);
   font-style: italic;
 }
 

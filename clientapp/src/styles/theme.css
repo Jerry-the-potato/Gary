@@ -1,23 +1,108 @@
 /* Dark Mode Design System */
 
-/* Color Variables System */
+/* Enhanced Color Variables System - WCAG AA Compliant */
 :root {
-  /* Light mode (default) */
+  /* Base background colors */
   --bg-primary: #ffffff;
   --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
   --bg-overlay: rgba(255, 255, 255, 0.95);
-  --text-primary: #1e293b;
-  --text-secondary: #64748b;
+  --bg-hover: #f1f5f9;
+  --bg-active: #e2e8f0;
+  --bg-disabled: #f8fafc;
+
+  /* Text colors - Enhanced contrast */
+  --text-primary: #0f172a;        /* 確保高對比 */
+  --text-secondary: #475569;      /* 改善對比度 */
+  --text-tertiary: #64748b;
+  --text-disabled: #94a3b8;
+  --text-inverse: #ffffff;
+
+  /* Interactive elements */
   --accent-primary: #3b82f6;
-  --border-color: #e2e8f0;
-  --shadow-color: rgba(0, 0, 0, 0.1);
-  
-  /* Canvas related colors */
-  --canvas-bg: #ffffff;
-  --ui-button-bg: rgba(59, 130, 246, 0.9);
+  --accent-secondary: #06b6d4;
+  --accent-hover: #2563eb;
+  --accent-active: #1d4ed8;
+  --accent-disabled: #cbd5e1;
+
+  /* UI Button states */
+  --ui-button-bg: #3b82f6;
   --ui-button-text: #ffffff;
+  --ui-button-hover: #2563eb;
+  --ui-button-active: #1d4ed8;
+  --ui-button-disabled: #cbd5e1;
+  --ui-button-disabled-text: #94a3b8;
+
+  /* Enhanced button hover states */
+  --ui-button-success-hover: #059669;
+  --ui-button-warning-hover: #d97706;
+  --ui-button-error-hover: #dc2626;
+
+  /* Glass effect buttons */
+  --ui-button-glass-bg: rgba(255, 255, 255, 0.1);
+  --ui-button-glass-border: rgba(255, 255, 255, 0.3);
+  --ui-button-glass-hover: rgba(255, 255, 255, 0.2);
+
+  /* Input field effects */
+  --ui-input-bg: #ffffff;
+  --ui-input-border: #d1d5db;
+  --ui-input-focus: #3b82f6;
+  --ui-input-focus-glow: rgba(96, 165, 250, 0.1);
+
+  /* Gradient overlays */
+  --ui-gradient-overlay: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.05) 100%);
+  --ui-shimmer-gradient: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+
+  /* Alert backgrounds */
+  --alert-error-bg: rgba(239, 68, 68, 0.1);
+
+  /* Print styles */
+  --print-bg: white;
+  --print-text: black;
+  --print-border: #000000;
+  --print-highlight-bg: #f0f0f0;
+
+  /* Alert and status colors */
+  --accent-success: #10b981;
+  --accent-success-bg: #ecfdf5;
+  --accent-success-text: #065f46;
+  --accent-warning: #f59e0b;
+  --accent-warning-bg: #fffbeb;
+  --accent-warning-text: #92400e;
+  --accent-error: #ef4444;
+  --accent-error-bg: #fef2f2;
+  --accent-error-text: #991b1b;
+  --accent-info: #06b6d4;
+  --accent-info-bg: #f0f9ff;
+  --accent-info-text: #0c4a6e;
+
+  /* Border and dividers */
+  --border-color: #e2e8f0;
+  --border-hover: #cbd5e1;
+  --border-focus: #3b82f6;
+  --border-error: #ef4444;
+  --border-success: #10b981;
+  --border-muted: #f1f5f9;
+
+  /* Shadows and effects */
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow-hover: rgba(0, 0, 0, 0.15);
+  --shadow-focus: rgba(59, 130, 246, 0.25);
+
+  /* Input fields */
+  --input-bg: #ffffff;
+  --input-border: #d1d5db;
+  --input-text: #111827;
+  --input-placeholder: #9ca3af;
+  --input-focus-bg: #ffffff;
+  --input-focus-border: #3b82f6;
+  --input-disabled-bg: #f9fafb;
+  --input-disabled-text: #6b7280;
+
+  /* Canvas and visualization */
+  --canvas-bg: #ffffff;
   --status-text: #374151;
-  
+
   /* Algorithm visualization colors */
   --algo-array: #3b82f6;
   --algo-compare: #ef4444;
@@ -25,23 +110,109 @@
   --algo-pivot: #f59e0b;
 }
 
-/* Dark mode colors */
+/* Dark mode colors - Enhanced contrast for WCAG AA compliance */
 [data-theme="dark"] {
+  /* Base background colors */
   --bg-primary: #0f172a;
   --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
   --bg-overlay: rgba(15, 23, 42, 0.95);
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
+  --bg-hover: #334155;
+  --bg-active: #475569;
+  --bg-disabled: #1e293b;
+
+  /* Text colors - Enhanced contrast */
+  --text-primary: #f8fafc;        /* 提高對比度 */
+  --text-secondary: #cbd5e1;      /* 改善可讀性 */
+  --text-tertiary: #94a3b8;
+  --text-disabled: #64748b;
+  --text-inverse: #0f172a;
+
+  /* Interactive elements */
   --accent-primary: #60a5fa;
-  --border-color: #334155;
-  --shadow-color: rgba(0, 0, 0, 0.3);
-  
-  /* Canvas dark mode adaptation */
-  --canvas-bg: #020617;
-  --ui-button-bg: rgba(96, 165, 250, 0.9);
+  --accent-secondary: #22d3ee;
+  --accent-hover: #3b82f6;
+  --accent-active: #2563eb;
+  --accent-disabled: #475569;
+
+  /* UI Button states */
+  --ui-button-bg: #60a5fa;
   --ui-button-text: #0f172a;
-  --status-text: #e2e8f0;
-  
+  --ui-button-hover: #3b82f6;
+  --ui-button-active: #2563eb;
+  --ui-button-disabled: #475569;
+  --ui-button-disabled-text: #64748b;
+
+  /* Enhanced button hover states */
+  --ui-button-success-hover: #10b981;
+  --ui-button-warning-hover: #f59e0b;
+  --ui-button-error-hover: #ef4444;
+
+  /* Glass effect buttons for dark mode */
+  --ui-button-glass-bg: rgba(255, 255, 255, 0.05);
+  --ui-button-glass-border: rgba(255, 255, 255, 0.15);
+  --ui-button-glass-hover: rgba(255, 255, 255, 0.1);
+
+  /* Input field effects for dark mode */
+  --ui-input-bg: #1e293b;
+  --ui-input-border: #475569;
+  --ui-input-focus: #60a5fa;
+  --ui-input-focus-glow: rgba(96, 165, 250, 0.2);
+
+  /* Gradient overlays for dark mode */
+  --ui-gradient-overlay: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%, rgba(255,255,255,0.02) 100%);
+  --ui-shimmer-gradient: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+
+  /* Alert backgrounds for dark mode */
+  --alert-error-bg: rgba(248, 113, 113, 0.1);
+
+  /* Print styles for dark mode */
+  --print-bg: #0f172a;
+  --print-text: #f8fafc;
+  --print-border: #475569;
+  --print-highlight-bg: #1e293b;
+
+  /* Alert and status colors - High contrast */
+  --accent-success: #34d399;
+  --accent-success-bg: #064e3b;
+  --accent-success-text: #a7f3d0;
+  --accent-warning: #fbbf24;
+  --accent-warning-bg: #451a03;
+  --accent-warning-text: #fde68a;
+  --accent-error: #f87171;
+  --accent-error-bg: #7f1d1d;
+  --accent-error-text: #fecaca;
+  --accent-info: #22d3ee;
+  --accent-info-bg: #164e63;
+  --accent-info-text: #a5f3fc;
+
+  /* Border and dividers */
+  --border-color: #475569;
+  --border-hover: #64748b;
+  --border-focus: #60a5fa;
+  --border-error: #f87171;
+  --border-success: #34d399;
+  --border-muted: #334155;
+
+  /* Shadows and effects */
+  --shadow-color: rgba(0, 0, 0, 0.4);
+  --shadow-hover: rgba(0, 0, 0, 0.6);
+  --shadow-focus: rgba(96, 165, 250, 0.4);
+
+  /* Input fields */
+  --input-bg: #1e293b;
+  --input-border: #475569;
+  --input-text: #f8fafc;
+  --input-placeholder: #94a3b8;
+  --input-focus-bg: #1e293b;
+  --input-focus-border: #60a5fa;
+  --input-disabled-bg: #334155;
+  --input-disabled-text: #64748b;
+
+  /* Canvas and visualization */
+  --canvas-bg: #020617;
+  --status-text: #cbd5e1;
+
   /* Algorithm visualization dark colors */
   --algo-array: #60a5fa;
   --algo-compare: #f87171;
@@ -49,18 +220,46 @@
   --algo-pivot: #fbbf24;
 }
 
-/* High contrast mode support */
+/* High contrast mode support - Enhanced coverage */
 @media (prefers-contrast: high) {
   :root {
-    --accent-primary: #0066cc;
+    /* Enhanced high contrast for light mode */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #e5e7eb;
     --text-primary: #000000;
+    --text-secondary: #1f2937;
+    --accent-primary: #0066cc;
+    --accent-hover: #004499;
+    --accent-active: #003366;
     --border-color: #333333;
+    --border-focus: #0066cc;
+    --ui-button-bg: #0066cc;
+    --ui-button-text: #ffffff;
+    --ui-button-hover: #004499;
+    --input-border: #333333;
+    --input-focus-border: #0066cc;
+    --shadow-focus: rgba(0, 102, 204, 0.5);
   }
-  
+
   [data-theme="dark"] {
-    --accent-primary: #4da6ff;
+    /* Enhanced high contrast for dark mode */
+    --bg-primary: #000000;
+    --bg-secondary: #1a1a1a;
+    --bg-tertiary: #333333;
     --text-primary: #ffffff;
+    --text-secondary: #e5e5e5;
+    --accent-primary: #4da6ff;
+    --accent-hover: #66b3ff;
+    --accent-active: #80c0ff;
     --border-color: #cccccc;
+    --border-focus: #4da6ff;
+    --ui-button-bg: #4da6ff;
+    --ui-button-text: #000000;
+    --ui-button-hover: #66b3ff;
+    --input-border: #cccccc;
+    --input-focus-border: #4da6ff;
+    --shadow-focus: rgba(77, 166, 255, 0.6);
   }
 }
 
@@ -72,12 +271,54 @@
   }
 }
 
-/* Base theme transition */
+/* Enhanced base transitions and focus styles */
 * {
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.2s ease;
 }
 
-/* Theme-aware components */
+/* Universal focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px var(--shadow-focus);
+}
+
+/* Button focus styles */
+button:focus-visible,
+.button:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px var(--shadow-focus);
+}
+
+/* Input focus styles */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  border-color: var(--input-focus-border);
+  box-shadow: 0 0 0 3px var(--shadow-focus);
+  outline: none;
+}
+
+/* Common interactive states */
+.interactive:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--border-hover);
+}
+
+.interactive:active {
+  background-color: var(--bg-active);
+  transform: translateY(1px);
+}
+
+.interactive:disabled {
+  background-color: var(--bg-disabled);
+  color: var(--text-disabled);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Enhanced theme-aware components */
 .theme-toggle {
   position: fixed;
   top: 20px;
@@ -88,9 +329,9 @@
 .theme-btn {
   width: 40px;
   height: 40px;
-  border: none;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  background: var(--accent-primary);
+  background: var(--ui-button-bg);
   color: var(--ui-button-text);
   cursor: pointer;
   font-size: 18px;
@@ -102,10 +343,24 @@
 }
 
 .theme-btn:hover {
+  background: var(--ui-button-hover);
+  border-color: var(--border-hover);
   transform: scale(1.05);
-  filter: brightness(1.1);
+  box-shadow: 0 4px 12px var(--shadow-hover);
 }
 
+.theme-btn:active {
+  background: var(--ui-button-active);
+  transform: scale(0.95);
+}
+
+.theme-btn:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px var(--shadow-focus);
+}
+
+/* Control overlay improvements */
 .control-overlay {
   background: var(--bg-overlay);
   border: 1px solid var(--border-color);
@@ -113,19 +368,182 @@
   backdrop-filter: blur(8px);
   box-shadow: 0 8px 32px var(--shadow-color);
   color: var(--text-primary);
+  padding: 1rem;
 }
 
 [data-theme="dark"] .control-overlay {
   backdrop-filter: blur(12px) saturate(1.2);
+  box-shadow: 0 8px 32px var(--shadow-color);
 }
 
+.control-overlay:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 12px 40px var(--shadow-hover);
+}
+
+/* Status and alert styles */
 .status-text {
   color: var(--text-secondary);
 }
 
-/* Canvas styling */
+.alert {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin: 0.5rem 0;
+  border: 1px solid transparent;
+}
+
+.alert-success {
+  background-color: var(--accent-success-bg);
+  color: var(--accent-success-text);
+  border-color: var(--accent-success);
+}
+
+.alert-warning {
+  background-color: var(--accent-warning-bg);
+  color: var(--accent-warning-text);
+  border-color: var(--accent-warning);
+}
+
+.alert-error {
+  background-color: var(--accent-error-bg);
+  color: var(--accent-error-text);
+  border-color: var(--accent-error);
+}
+
+.alert-info {
+  background-color: var(--accent-info-bg);
+  color: var(--accent-info-text);
+  border-color: var(--accent-info);
+}
+
+/* Enhanced Canvas and form controls styling */
 canvas {
   background-color: var(--canvas-bg);
   border: 1px solid var(--border-color);
   border-radius: 8px;
+  transition: border-color 0.2s ease;
+}
+
+canvas:hover {
+  border-color: var(--border-hover);
+}
+
+/* Universal input styles */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--input-text);
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+input[type="text"]:hover,
+input[type="number"]:hover,
+textarea:hover,
+select:hover {
+  border-color: var(--border-hover);
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+  background-color: var(--input-focus-bg);
+  border-color: var(--input-focus-border);
+  outline: none;
+}
+
+input[type="text"]:disabled,
+input[type="number"]:disabled,
+textarea:disabled,
+select:disabled {
+  background-color: var(--input-disabled-bg);
+  color: var(--input-disabled-text);
+  cursor: not-allowed;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--input-placeholder);
+}
+
+/* Universal button styles */
+.btn,
+button:not(.theme-btn) {
+  background-color: var(--ui-button-bg);
+  color: var(--ui-button-text);
+  border: 1px solid var(--ui-button-bg);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn:hover,
+button:not(.theme-btn):hover {
+  background-color: var(--ui-button-hover);
+  border-color: var(--ui-button-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--shadow-hover);
+}
+
+.btn:active,
+button:not(.theme-btn):active {
+  background-color: var(--ui-button-active);
+  border-color: var(--ui-button-active);
+  transform: translateY(0);
+}
+
+.btn:disabled,
+button:not(.theme-btn):disabled {
+  background-color: var(--ui-button-disabled);
+  color: var(--ui-button-disabled-text);
+  border-color: var(--ui-button-disabled);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Button variants */
+.btn-secondary {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--border-hover);
+}
+
+.btn-success {
+  background-color: var(--accent-success);
+  color: white;
+  border-color: var(--accent-success);
+}
+
+.btn-warning {
+  background-color: var(--accent-warning);
+  color: white;
+  border-color: var(--accent-warning);
+}
+
+.btn-error {
+  background-color: var(--accent-error);
+  color: white;
+  border-color: var(--accent-error);
 }

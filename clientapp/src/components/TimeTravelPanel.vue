@@ -318,20 +318,28 @@ function formatTime(timestamp: number): string {
   align-items: center;
   gap: 8px;
   padding: 12px 16px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
+  background: var(--accent-primary);
+  color: var(--ui-button-text);
+  border: 1px solid var(--accent-primary);
   border-radius: 25px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 15px var(--shadow-color);
   transition: all 0.3s ease;
 }
 
 .panel-toggle:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+  box-shadow: 0 6px 20px var(--shadow-hover);
+}
+
+.panel-toggle:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px var(--shadow-focus);
 }
 
 .panel-toggle .icon {
@@ -344,9 +352,10 @@ function formatTime(timestamp: number): string {
   right: 0;
   width: 350px;
   max-height: 80vh;
-  background: white;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px var(--shadow-color);
   overflow: hidden;
   animation: slideDown 0.3s ease;
 }
@@ -364,9 +373,9 @@ function formatTime(timestamp: number): string {
 
 .panel-header {
   padding: 16px 20px;
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  color: white;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--accent-secondary);
+  color: var(--ui-button-text);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .panel-header h3 {
@@ -387,33 +396,42 @@ function formatTime(timestamp: number): string {
   display: flex;
   gap: 8px;
   padding: 12px 20px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .timeline-controls button {
   flex: 1;
   padding: 8px 12px;
   font-size: 12px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--border-color);
   border-radius: 6px;
-  background: white;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .timeline-controls button:hover:not(:disabled) {
-  background: #f3f4f6;
-  border-color: #9ca3af;
+  background: var(--bg-hover);
+  border-color: var(--border-hover);
+}
+
+.timeline-controls button:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px var(--shadow-focus);
 }
 
 .timeline-controls button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  background: var(--bg-disabled);
+  color: var(--text-disabled);
 }
 
 .timeline-visualization {
   padding: 16px 20px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .timeline-track {
@@ -432,27 +450,27 @@ function formatTime(timestamp: number): string {
 }
 
 .timeline-point.clickable:hover .point-indicator {
-  background: #3b82f6;
+  background: var(--accent-primary);
   transform: scale(1.2);
 }
 
 .timeline-point.active .point-indicator {
-  background: #10b981;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+  background: var(--accent-success);
+  box-shadow: 0 0 0 3px var(--shadow-focus);
 }
 
 .point-indicator {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: #d1d5db;
+  background: var(--border-color);
   transition: all 0.2s ease;
 }
 
 .point-label {
   font-size: 10px;
   margin-top: 4px;
-  color: #6b7280;
+  color: var(--text-tertiary);
 }
 
 .snapshot-list {
@@ -465,37 +483,38 @@ function formatTime(timestamp: number): string {
   align-items: center;
   gap: 8px;
   padding: 12px 20px;
-  border-bottom: 1px solid #e5e7eb;
-  background: #f9fafb;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-secondary);
 }
 
 .list-header h4 {
   margin: 0;
   font-size: 14px;
   font-weight: 600;
+  color: var(--text-primary);
 }
 
 .list-count {
   font-size: 12px;
-  color: #6b7280;
+  color: var(--text-tertiary);
 }
 
 .snapshot-item {
   display: flex;
   align-items: center;
   padding: 12px 20px;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--border-color);
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
 .snapshot-item.clickable:hover {
-  background: #f9fafb;
+  background: var(--bg-hover);
 }
 
 .snapshot-item.active {
-  background: #ecfdf5;
-  border-left: 3px solid #10b981;
+  background: var(--accent-success-bg);
+  border-left: 3px solid var(--accent-success);
 }
 
 .snapshot-info {
@@ -512,8 +531,8 @@ function formatTime(timestamp: number): string {
 .snapshot-number {
   font-size: 12px;
   font-weight: 600;
-  color: #6b7280;
-  background: #f3f4f6;
+  color: var(--text-tertiary);
+  background: var(--bg-tertiary);
   padding: 2px 6px;
   border-radius: 4px;
 }
@@ -521,14 +540,14 @@ function formatTime(timestamp: number): string {
 .snapshot-description {
   font-size: 13px;
   font-weight: 500;
-  color: #111827;
+  color: var(--text-primary);
 }
 
 .snapshot-details {
   display: flex;
   gap: 8px;
   font-size: 11px;
-  color: #6b7280;
+  color: var(--text-tertiary);
 }
 
 .snapshot-actions {
@@ -539,22 +558,31 @@ function formatTime(timestamp: number): string {
 .restore-btn {
   padding: 4px 8px;
   font-size: 12px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
-  background: white;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .restore-btn:hover:not(:disabled) {
-  background: #3b82f6;
-  color: white;
-  border-color: #3b82f6;
+  background: var(--accent-primary);
+  color: var(--ui-button-text);
+  border-color: var(--accent-primary);
+}
+
+.restore-btn:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px var(--shadow-focus);
 }
 
 .restore-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  background: var(--bg-disabled);
+  color: var(--text-disabled);
 }
 
 .empty-state {
@@ -569,18 +597,19 @@ function formatTime(timestamp: number): string {
 
 .empty-message p {
   margin: 8px 0;
-  color: #6b7280;
+  color: var(--text-secondary);
 }
 
 .empty-hint {
   font-size: 12px;
   opacity: 0.8;
+  color: var(--text-tertiary);
 }
 
 .time-travel-indicator {
   padding: 12px 20px;
-  background: #fef3c7;
-  border-top: 1px solid #f59e0b;
+  background: var(--accent-warning-bg);
+  border-top: 1px solid var(--accent-warning);
 }
 
 .indicator-content {
@@ -588,19 +617,19 @@ function formatTime(timestamp: number): string {
   align-items: center;
   gap: 8px;
   font-size: 13px;
-  color: #92400e;
+  color: var(--accent-warning-text);
 }
 
 .debug-panel {
   padding: 16px 20px;
-  background: #f9fafb;
-  border-top: 1px solid #e5e7eb;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
 }
 
 .debug-panel h4 {
   margin: 0 0 12px 0;
   font-size: 14px;
-  color: #374151;
+  color: var(--text-primary);
 }
 
 .debug-content {
@@ -611,30 +640,12 @@ function formatTime(timestamp: number): string {
 
 .debug-item {
   font-size: 12px;
-  color: #6b7280;
+  color: var(--text-secondary);
 }
 
 .debug-item strong {
-  color: #374151;
+  color: var(--text-primary);
 }
 
-/* 深色主題支援 */
-[data-theme="dark"] .panel-content {
-  background: #1f2937;
-  color: #f9fafb;
-}
 
-[data-theme="dark"] .timeline-controls button {
-  background: #374151;
-  border-color: #4b5563;
-  color: #f9fafb;
-}
-
-[data-theme="dark"] .snapshot-item {
-  border-bottom-color: #374151;
-}
-
-[data-theme="dark"] .snapshot-item:hover {
-  background: #374151;
-}
 </style>

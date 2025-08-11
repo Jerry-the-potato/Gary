@@ -1,4 +1,19 @@
 {
+  "name": "gary-algorithm-visualization",
+  "version": "1.0.0",
+  "description": "Algorithm Visualization Tool with Vue3 and WebGPU",
+  "scripts": {
+    "dev": "cd clientapp && npm run dev",
+    "dev:bg": "cd clientapp && npm run dev:bg",
+    "dev:detached": "cd clientapp && npm run dev:detached",
+    "dev:new-window": "cd clientapp && npm run dev:new-window",
+    "stop:dev": "cd clientapp && npm run stop:dev",
+    "build": "cd clientapp && npm run build",
+    "test": "cd clientapp && npm run test",
+    "test:coverage": "cd clientapp && npm run test:coverage",
+    "install:frontend": "cd clientapp && npm install",
+    "preview": "cd clientapp && npm run preview"
+  },
   "dependencies": {
     "vue-router": "^4.5.1"
   },
