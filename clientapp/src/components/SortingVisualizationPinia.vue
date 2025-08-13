@@ -4,44 +4,151 @@
 -->
 
 <template>
-  <div class="sorting-visualization-pinia">
-    <!-- 演算法選擇器 -->
-    <div class="algorithm-selector">
-      <h2>🎯 選擇排序演算法</h2>
-      <div class="algorithm-buttons">
+  <div class="sorting-visualization-pinia" role="main" aria-labelledby="main-heading">
+    <!-- 主標題 -->
+    <h1 id="main-heading" class="sr-only">排序演算法視覺化工具</h1>
+
+    <!-- 可達性控制面板 -->
+    <div class="accessibility-controls" role="region" aria-labelledby="a11y-heading">
+      <h2 id="a11y-heading" class="sr-only">可達性控制</h2>
+      <div class="a11y-buttons">
         <button
-          v-for="algorithm in algorithms"
+          type="button"
+          :aria-pressed="config.highContrast"
+          @click="toggleHighContrastMode"
+          class="a11y-btn"
+          :aria-label="config.highContrast ? '關閉高對比模式' : '啟用高對比模式'"
+        >
+          🔆 高對比
+        </button>
+        <button
+          type="button"
+          :aria-pressed="config.reducedMotion"
+          @click="toggleReducedMotion"
+          class="a11y-btn"
+          :aria-label="config.reducedMotion ? '啟用動畫' : '減少動畫'"
+        >
+          ⏸️ 減少動畫
+        </button>
+        <button
+          type="button"
+          @click="showKeyboardHelp = !showKeyboardHelp"
+          class="a11y-btn"
+          :aria-expanded="showKeyboardHelp"
+          aria-controls="keyboard-help"
+        >
+          ⌨️ 快捷鍵
+        </button>
+      </div>
+    </div>
+
+    <!-- 鍵盤快捷鍵說明 -->
+    <div
+      v-if="showKeyboardHelp"
+      id="keyboard-help"
+      class="keyboard-help"
+      role="dialog"
+      aria-labelledby="keyboard-help-title"
+      :aria-hidden="!showKeyboardHelp"
+    >
+      <h3 id="keyboard-help-title">鍵盤快捷鍵</h3>
+      <ul class="shortcut-list">
+        <li v-for="shortcut in getKeyboardShortcutsList()" :key="shortcut">
+          {{ shortcut }}
+        </li>
+      </ul>
+      <button @click="showKeyboardHelp = false" class="close-help-btn">
+        關閉 (ESC)
+      </button>
+    </div>
+
+    <!-- 演算法選擇器 -->
+    <div class="algorithm-selector" role="region" aria-labelledby="algorithm-heading">
+      <h2 id="algorithm-heading">🎯 選擇排序演算法</h2>
+      <div
+        class="algorithm-buttons"
+        role="radiogroup"
+        aria-label="排序演算法選擇"
+        :aria-activedescendant="selectedAlgorithm"
+      >
+        <button
+          v-for="(algorithm, index) in algorithms"
           :key="algorithm.type"
+          :id="algorithm.type"
+          :tabindex="selectedAlgorithm === algorithm.type ? 0 : -1"
           :class="[
             'algorithm-button',
             { active: selectedAlgorithm === algorithm.type }
           ]"
+          role="radio"
+          :aria-checked="selectedAlgorithm === algorithm.type"
+          :aria-describedby="`algo-desc-${algorithm.type}`"
           @click="selectAlgorithm(algorithm.type)"
+          @keydown="handleAlgorithmKeydown($event, algorithm.type, index)"
         >
           {{ algorithm.name }}
+          <span :id="`algo-desc-${algorithm.type}`" class="sr-only">
+            {{ getAlgorithmDescription(algorithm.type) }}
+          </span>
         </button>
       </div>
     </div>
 
     <!-- 數據輸入 -->
-    <div class="data-input">
-      <h3>📊 輸入數據</h3>
+    <div class="data-input" role="region" aria-labelledby="data-heading">
+      <h3 id="data-heading">📊 輸入數據</h3>
       <div class="input-controls">
+        <label for="data-input-field" class="sr-only">
+          輸入要排序的數字，用逗號分隔
+        </label>
         <input
+          id="data-input-field"
           v-model="dataInput"
           type="text"
           placeholder="輸入數字，用逗號分隔 (例: 64,34,25,12,22,11,90)"
           class="data-input-field"
+          :aria-describedby="dataInputErrorId"
+          :aria-invalid="!!dataInputError"
+          @blur="validateDataInput"
+          @keydown.enter="setDataFromInput"
         />
-        <button @click="generateRandomData" class="generate-button">
+        <div
+          v-if="dataInputError"
+          :id="dataInputErrorId"
+          class="input-error"
+          role="alert"
+          aria-live="assertive"
+        >
+          {{ dataInputError }}
+        </div>
+        <button
+          type="button"
+          @click="generateRandomData"
+          class="generate-button"
+          :aria-describedby="generateBtnDesc"
+        >
           🎲 隨機生成
+          <span id="generateBtnDesc" class="sr-only">
+            生成 8 個 10-100 之間的隨機數字
+          </span>
         </button>
-        <button @click="resetData" class="reset-button">
+        <button
+          type="button"
+          @click="resetData"
+          class="reset-button"
+          :aria-describedby="resetBtnDesc"
+        >
           🔄 重置
+          <span id="resetBtnDesc" class="sr-only">
+            重置為預設數據：64,34,25,12,22,11,90
+          </span>
         </button>
       </div>
-      <div class="current-data">
+      <div class="current-data" aria-live="polite">
         <strong>當前數據:</strong> [{{ currentData.join(', ') }}]
+        <span class="sr-only">
+          共 {{ currentData.length }} 個數字
+        </span>
       </div>
     </div>
 
@@ -184,6 +291,7 @@ import { useSortingVisualizationStore } from '../stores/sortingVisualization'
 import { useRendererStore } from '../stores/renderer'
 import { useAppStore } from '../stores/app'
 import { getAlgorithmMetadata } from '../composables/useAlgorithmMapping'
+import { useAccessibility } from '../composables/useAccessibility'
 import TimeTravelPanel from './TimeTravelPanel.vue'
 
 // Stores
@@ -191,9 +299,64 @@ const sortingStore = useSortingVisualizationStore()
 const rendererStore = useRendererStore()
 const appStore = useAppStore()
 
+// Accessibility composable
+const {
+  // Configuration
+  config,
+
+  // User preferences
+  prefersReducedMotion,
+  prefersHighContrast,
+  prefersColorScheme,
+  currentFocusGroup,
+
+  // Screen reader
+  announceToScreenReader,
+
+  // Focus management
+  registerFocusableElement,
+  unregisterFocusableElement,
+  focusFirstElement,
+  focusLastElement,
+  moveFocusToNextElement,
+  moveFocusToPreviousElement,
+
+  // Keyboard shortcuts
+  registerKeyboardShortcut,
+  unregisterKeyboardShortcut,
+  getKeyboardShortcutsList,
+
+  // ARIA helpers
+  createUniqueId,
+  setAriaLabel,
+  setAriaDescribedBy,
+  setAriaLive,
+  setAriaExpanded,
+
+  // High contrast mode
+  enableHighContrastMode,
+  disableHighContrastMode,
+  toggleHighContrastMode,
+
+  // Reduced motion mode
+  enableReducedMotion,
+  disableReducedMotion,
+  toggleReducedMotion,
+
+  // Initialize
+  initialize
+} = useAccessibility()
+
 // 組件狀態
 const canvasElement = ref<HTMLCanvasElement | null>(null)
 const dataInput = ref('64,34,25,12,22,11,90')
+
+// 無障礙相關狀態
+const showKeyboardHelp = ref(false)
+const dataInputError = ref<string | null>(null)
+const dataInputErrorId = createUniqueId('data-input-error')
+const generateBtnDesc = createUniqueId('generate-btn-desc')
+const resetBtnDesc = createUniqueId('reset-btn-desc')
 
 // 從 stores 計算屬性
 const selectedAlgorithm = computed(() => sortingStore.selectedAlgorithm)
@@ -231,13 +394,19 @@ const selectedAlgorithmInfo = computed(() => {
 function selectAlgorithm(algorithm: typeof algorithms[0]['type']) {
   try {
     sortingStore.selectAlgorithm(algorithm)
+    const algorithmName = getAlgorithmName(algorithm)
+    announceToScreenReader(`已選擇 ${algorithmName}`)
   } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : '無法切換演算法'
+
     appStore.addNotification({
       type: 'error',
       title: '切換演算法失敗',
-      message: error instanceof Error ? error.message : '無法切換演算法',
+      message: errorMessage,
       autoClose: true
     })
+
+    announceToScreenReader(`錯誤: ${errorMessage}`, 'assertive')
   }
 }
 
@@ -251,11 +420,13 @@ function generateRandomData() {
 
   dataInput.value = randomData.join(',')
   setDataFromInput()
+  announceToScreenReader(`已生成 ${count} 個隨機數字: ${randomData.join(', ')}`)
 }
 
 function resetData() {
   dataInput.value = '64,34,25,12,22,11,90'
   setDataFromInput()
+  announceToScreenReader('已重設為預設數據: 64, 34, 25, 12, 22, 11, 90')
 }
 
 function setDataFromInput() {
@@ -281,15 +452,23 @@ function setDataFromInput() {
     }
 
     sortingStore.setData(numbers)
+    dataInputError.value = null
 
   } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : '數據格式不正確'
+    dataInputError.value = errorMessage
+
     appStore.addNotification({
       type: 'error',
       title: '數據輸入錯誤',
-      message: error instanceof Error ? error.message : '數據格式不正確',
+      message: errorMessage,
       autoClose: true
     })
   }
+}
+
+function validateDataInput() {
+  setDataFromInput()
 }
 
 async function startSorting() {
@@ -297,40 +476,60 @@ async function startSorting() {
     await sortingStore.startSorting()
     appStore.recordSortingRun(selectedAlgorithm.value)
 
+    const algorithmName = getAlgorithmName(selectedAlgorithm.value)
+    const message = `已開始 ${algorithmName} 排序`
+
     appStore.addNotification({
       type: 'success',
       title: '開始排序',
-      message: `已開始 ${getAlgorithmName(selectedAlgorithm.value)} 排序`,
+      message,
       autoClose: true
     })
+
+    // 向螢幕閱讀器公告
+    announceToScreenReader(message, 'assertive')
   } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : '無法開始排序'
+
     appStore.addNotification({
       type: 'error',
       title: '排序啟動失敗',
-      message: error instanceof Error ? error.message : '無法開始排序',
+      message: errorMessage,
       autoClose: true
     })
+
+    // 向螢幕閱讀器公告錯誤
+    announceToScreenReader(`錯誤: ${errorMessage}`, 'assertive')
   }
 }
 
 function pausePlayback() {
   sortingStore.pausePlayback()
+  announceToScreenReader('已暫停播放')
 }
 
 function resumePlayback() {
   sortingStore.resumePlayback()
+  announceToScreenReader('已繼續播放')
 }
 
 function stopPlayback() {
   sortingStore.stopPlayback()
+  announceToScreenReader('已停止播放')
 }
 
 function previousStep() {
   sortingStore.previousStep()
+  if (currentStepInfo.value) {
+    announceToScreenReader(`上一步: ${currentStepInfo.value.operation.description}`)
+  }
 }
 
 function nextStep() {
   sortingStore.nextStep()
+  if (currentStepInfo.value) {
+    announceToScreenReader(`下一步: ${currentStepInfo.value.operation.description}`)
+  }
 }
 
 function updateSpeed(event: Event) {
@@ -346,6 +545,111 @@ function getAlgorithmName(algorithm: string): string {
     'insertion-sort': '插入排序'
   }
   return names[algorithm] || algorithm
+}
+
+// 無障礙輔助函數
+function getAlgorithmDescription(algorithm: string): string {
+  const descriptions: Record<string, string> = {
+    'bubble-sort': '重複比較相鄰元素並交換，時間複雜度 O(n²)',
+    'selection-sort': '找到最小元素並移動到前面，時間複雜度 O(n²)',
+    'insertion-sort': '將元素插入到已排序的正確位置，時間複雜度 O(n²)'
+  }
+  return descriptions[algorithm] || '排序演算法'
+}
+
+// 鍵盤導航處理
+function handleAlgorithmKeydown(event: KeyboardEvent, algorithmType: string, index: number) {
+  const buttons = Array.from(document.querySelectorAll('.algorithm-button')) as HTMLButtonElement[]
+
+  switch (event.key) {
+    case 'ArrowRight':
+    case 'ArrowDown':
+      event.preventDefault()
+      const nextIndex = Math.min(index + 1, buttons.length - 1)
+      buttons[nextIndex]?.focus()
+      break
+
+    case 'ArrowLeft':
+    case 'ArrowUp':
+      event.preventDefault()
+      const prevIndex = Math.max(index - 1, 0)
+      buttons[prevIndex]?.focus()
+      break
+
+    case 'Home':
+      event.preventDefault()
+      buttons[0]?.focus()
+      break
+
+    case 'End':
+      event.preventDefault()
+      buttons[buttons.length - 1]?.focus()
+      break
+
+    case 'Enter':
+    case ' ':
+      event.preventDefault()
+      selectAlgorithm(algorithmType as typeof algorithms[0]['type'])
+      break
+  }
+}
+
+// 全域鍵盤快捷鍵
+function handleGlobalKeydown(event: KeyboardEvent) {
+  // 只在沒有其他輸入元素聚焦時處理
+  if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
+    return
+  }
+
+  switch (event.key) {
+    case ' ':
+      event.preventDefault()
+      if (playerState.value === 'playing') {
+        pausePlayback()
+      } else if (playerState.value === 'paused') {
+        resumePlayback()
+      } else if (canStart.value) {
+        startSorting()
+      }
+      break
+
+    case 'Escape':
+      event.preventDefault()
+      if (playerState.value !== 'idle') {
+        stopPlayback()
+      }
+      break
+
+    case 'ArrowLeft':
+      event.preventDefault()
+      if (canNavigate.value) {
+        previousStep()
+      }
+      break
+
+    case 'ArrowRight':
+      event.preventDefault()
+      if (canNavigate.value) {
+        nextStep()
+      }
+      break
+
+    case 'r':
+    case 'R':
+      if (event.ctrlKey || event.metaKey) {
+        event.preventDefault()
+        resetData()
+      }
+      break
+
+    case 'g':
+    case 'G':
+      if (event.ctrlKey || event.metaKey) {
+        event.preventDefault()
+        generateRandomData()
+      }
+      break
+  }
 }
 
 // 初始化渲染器
@@ -377,11 +681,66 @@ watch(dataInput, () => {
 
 // 生命週期鉤子
 onMounted(async () => {
+  // 初始化無障礙功能
+  const cleanupAccessibility = initialize()
+
+  // 設定無障礙鍵盤快捷鍵
+  registerKeyboardShortcut({
+    key: ' ',
+    description: '播放/暫停排序',
+    action: () => {
+      if (playerState.value === 'playing') {
+        pausePlayback()
+      } else if (playerState.value === 'paused') {
+        resumePlayback()
+      } else if (canStart.value) {
+        startSorting()
+      }
+    }
+  })
+
+  registerKeyboardShortcut({
+    key: 'Escape',
+    description: '停止排序',
+    action: () => {
+      if (playerState.value !== 'idle') {
+        stopPlayback()
+      }
+    }
+  })
+
+  registerKeyboardShortcut({
+    key: 'r',
+    ctrlKey: true,
+    description: '重設數據',
+    action: resetData
+  })
+
+  registerKeyboardShortcut({
+    key: 'g',
+    ctrlKey: true,
+    description: '生成隨機數據',
+    action: generateRandomData
+  })
+
   await initializeRenderer()
+
+  // 設定初始焦點到第一個演算法按鈕
+  const firstAlgorithmButton = document.querySelector('.algorithm-button') as HTMLButtonElement
+  firstAlgorithmButton?.focus()
+
+  // 向螢幕閱讀器公告組件已就緒
+  announceToScreenReader('排序視覺化工具已就緒。使用 Tab 鍵導覽，空白鍵播放，Escape 停止。')
 })
 
 onBeforeUnmount(() => {
   sortingStore.stopPlayback()
+
+  // 清理所有鍵盤快捷鍵
+  unregisterKeyboardShortcut(' ')
+  unregisterKeyboardShortcut('Escape')
+  unregisterKeyboardShortcut('r', true)
+  unregisterKeyboardShortcut('g', true)
 })
 </script>
 
